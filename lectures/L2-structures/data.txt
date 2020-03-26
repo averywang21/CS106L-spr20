@@ -1,0 +1,175 @@
+81782 China
+80589 Italy
+80021 United States
+56197 Spain
+43646 Germany
+29551 France
+29406 Iran
+11811 Switzerland
+11772 United Kingdom
+9241 South Korea
+7459 Netherlands
+6847 Austria
+6235 Belgium
+3878 Canada
+3629 Turkey
+3544 Portugal
+3346 Norway
+2915 Brazil
+2840 Sweden
+2810 Australia
+2693 Israel
+2031 Malaysia
+2023 Denmark
+1925 Czechia
+1564 Ireland
+1453 Luxembourg
+1399 Japan
+1382 Ecuador
+1306 Chile
+1221 Poland
+1179 Pakistan
+1045 Thailand
+1029 Romania
+1012 Saudi Arabia
+958 Finland
+927 South Africa
+893 Indonesia
+892 Greece
+840 Russia
+802 Iceland
+722 India
+712 Diamond Princess
+707 Philippines
+683 Singapore
+580 Peru
+562 Slovenia
+558 Panama
+549 Qatar
+538 Estonia
+502 Argentina
+495 Croatia
+495 Egypt
+491 Colombia
+488 Dominican Republic
+475 Mexico
+458 Bahrain
+384 Serbia
+382 Iraq
+368 Lebanon
+367 Algeria
+333 United Arab Emirates
+299 Lithuania
+290 Armenia
+283 New Zealand
+275 Morocco
+264 Bulgaria
+261 Hungary
+252 Taiwan*
+244 Latvia
+231 Costa Rica
+226 Slovakia
+224 Andorra
+217 Uruguay
+212 Jordan
+208 Kuwait
+208 San Marino
+201 North Macedonia
+200 Tunisia
+189 Bosnia and Herzegovina
+177 Moldova
+174 Albania
+162 Ukraine
+153 Vietnam
+152 Burkina Faso
+146 Cyprus
+134 Malta
+132 Ghana
+122 Azerbaijan
+114 Brunei
+111 Kazakhstan
+109 Oman
+106 Sri Lanka
+106 Venezuela
+105 Senegal
+96 Cambodia
+96 Cote d'Ivoire
+94 Afghanistan
+86 Belarus
+84 West Bank and Gaza
+81 Mauritius
+79 Georgia
+75 Cameroon
+75 Uzbekistan
+71 Kosovo
+69 Montenegro
+67 Cuba
+65 Nigeria
+61 Trinidad and Tobago
+56 Liechtenstein
+52 Honduras
+51 Congo (Kinshasa)
+44 Bangladesh
+44 Kyrgyzstan
+41 Paraguay
+41 Rwanda
+40 Bolivia
+33 Monaco
+31 Kenya
+26 Jamaica
+24 Guatemala
+23 Madagascar
+23 Togo
+18 Barbados
+16 Zambia
+14 Uganda
+13 El Salvador
+13 Maldives
+13 Tanzania
+12 Equatorial Guinea
+12 Ethiopia
+11 Djibouti
+11 Dominica
+11 Mongolia
+8 Haiti
+8 Namibia
+8 Suriname
+7 Gabon
+7 Mozambique
+7 Niger
+7 Seychelles
+6 Benin
+6 Laos
+5 Bahamas
+5 Fiji
+5 Guyana
+5 Syria
+4 Cabo Verde
+4 Congo (Brazzaville)
+4 Eritrea
+4 Eswatini
+4 Guinea
+4 Holy See
+4 Mali
+3 Angola
+3 Antigua and Barbuda
+3 Central African Republic
+3 Chad
+3 Gambia
+3 Liberia
+3 Mauritania
+3 Nepal
+3 Saint Lucia
+3 Sudan
+3 Zimbabwe
+2 Belize
+2 Bhutan
+2 Guinea-Bissau
+2 Nicaragua
+2 Saint Kitts and Nevis
+2 Somalia
+1 Grenada
+1 Libya
+1 Papua New Guinea
+1 Saint Vincent and the Grenadines
+1 Timor-Leste
