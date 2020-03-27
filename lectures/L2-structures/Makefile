@@ -3,7 +3,7 @@ CC = g++
 SRC = main.cpp 
 OBJ = $(SRC:.cpp = .o) 
 
-get_data: $(OBJ) 
+main: $(OBJ) 
 	$(CC) $(CFLAGS) -o main $(OBJ) 
 clean:
 	rm -f main *.o
