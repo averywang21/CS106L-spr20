@@ -6,5 +6,7 @@ Assignments are delivered using a Qt Creator file, which
 is available on the class website.
 
 Currently available:
-L1-intro
+
+L1-intro -> None
+
 L2-structures
