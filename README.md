@@ -7,6 +7,6 @@ is available on the class website.
 
 Currently available:
 
-L1-intro -> None
+L1-intro
 
 L2-structures
