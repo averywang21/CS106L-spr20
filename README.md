@@ -1,13 +1,12 @@
 # CS106L-spr20
 
-Avery: Lectures TODO
-    Lecture 2: Structures
-    Lecture 3: References
-    Lecture 4: Functions
-    Lecture 6: Containers
-    Lecture 7: Iterators
-    Lecture 10: Template Classes
-    Lecture 11: Generic Programming
-    Lecture 12: Const Correctness and Operators
-    Lecture 13: Operator Overloading and Iterators
-    
+Welcome to the CS 106L Github Page!
+We will post all lecture code and exercises here. 
+Assignments are delivered using a Qt Creator file, which 
+is available on the class website.
+
+Currently available:
+
+L1-intro
+
+L2-structures
