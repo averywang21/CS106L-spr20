@@ -1,0 +1,49 @@
+L2 - structures
+We won't be using the powerpoint today - use it as a reference (no pun intended).
+In the future, Avery will use fancy "beautiful" powerpoints
+He just got too lazy this week.
+
+Today's agenda:
+
+Part 0: Questions about C++ (specifically from lecture)
+
+Part 1: Aggregate structures
+Quick intro to std::vector (CS 106B will cover what Vector is fully on Friday)
+struct - a collection of variables
+std::pair and multiple return values
+std::tuple
+std::array and std::vector
+guided example: report
+
+DEEP-DIVE: C++ Standard Library
+
+Part 2: Type Deduction
+auto and structured bindings
+examples!
+
+EXAMPLE: quadartic - talk about design choices with return value
+DEEP-DIVE: C++ Standard Library
+
+LOGISTICS AND STRETCH BREAK
+
+Part 3: C++ Classes
+uniform initialization
+constructor vs. assignment (operator=)
+std::initializer_list
+DEEP-DIVE: C++ Standard Library
+
+EXAMPLE: analysis
+
+Part 4: If time permits - References
+review l-value References
+value category: l-value vs. r-value
+
+
+
+
+
+
+
+
+
+

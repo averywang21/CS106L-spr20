@@ -63,18 +63,10 @@ int main() {
  *      auto [found, report] = get_country_report("2020-02-01");
  */
 std::pair<bool, Report> get_country_report(std::string date) {
-    auto data = read_data();
+    std::vector< std::tuple<std::string, size_t, size_t, double> > data = read_data();
+    // data is a vector of tuples (country, cases, deaths, increase_rate)
 
-    for (size_t i = 0; i < data.size(); ++i) {
-        auto entry = data[i];
-        if (std::get<0>(entry) == date) {
-            auto [date_name, cases, deaths, increase_rate] = entry;
-            Report result{cases, deaths, increase_rate};
-            return {true, result};
-        }
-    }
-
-    return {false, {}};
+    // TODO: find the relevant entry in data
 }
 
 /*
