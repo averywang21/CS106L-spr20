@@ -14,7 +14,7 @@
 
 // forward declarations, so we don't have to implement them in order
 struct Report;
-std::pair<bool, Report> get_country_report(std::string country);
+std::pair<bool, Report> get_date_report(std::string country);
 std::vector<std::tuple<std::string, size_t, size_t, double>> read_data();
 
 /*
@@ -41,7 +41,7 @@ int main() {
         std::cout << "Enter a date (YYYY-MM-DD): ";
         getline(std::cin, date);
         if (date == "") return 0;
-        auto [found, report] = get_country_report(date);
+        auto [found, report] = get_date_report(date);
         if (found) {
             std::cout << "On " << date << " there were " << report.cases << " cases and "
                     << report.deaths << " deaths reported globally, an increase of " 
@@ -60,13 +60,18 @@ int main() {
  * Return value: pair of bool (if date entry was found) and found Report
  * 
  * Usage:
- *      auto [found, report] = get_country_report("2020-02-01");
+ *      auto [found, report] = get_date_report("2020-02-01");
  */
-std::pair<bool, Report> get_country_report(std::string date) {
+std::pair<bool, Report> get_date_report(std::string date) {
     std::vector< std::tuple<std::string, size_t, size_t, double> > data = read_data();
-    // data is a vector of tuples (country, cases, deaths, increase_rate)
-
-    // TODO: find the relevant entry in data
+    
+    // data is a vector of tuples (date, cases, deaths, increase_rate)
+    for (const auto& [found_date, cases, deaths, increase_rate] : data) {
+        if (found_date == date) {
+            return {true, {cases, deaths, increase_rate}};
+        }
+    }
+    return {false, {0, 0, 0.0}};
 }
 
 /*
@@ -92,3 +97,4 @@ std::vector<std::tuple<std::string, size_t, size_t, double>> read_data() {
     }
     return result;
 }
+
