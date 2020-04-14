@@ -14,7 +14,12 @@ int main() {
     // Uniform initialization
     std::cout << "Testing out the cool constructors using uniform initialization\n";
     std::vector<std::string> default_init;
+
+    std::vector<std::string> vec(10, "Ito-En");
+
+
     std::vector<std::string> value_init{};
+
     std::vector<std::string> direct_init{3, "init"};
     std::vector<std::string> copy_init = {3, "init"};
     std::vector<std::string> list_init{"1", "2", "3"};

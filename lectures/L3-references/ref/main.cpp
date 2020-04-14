@@ -31,16 +31,11 @@ int main() {
     // Q1: what are contents of original?
     // Q2: what are contents of copy?
 
-    // hey cheater, did you decide to try run the code before
-    // trying it yourself and answering the poll in class?
-    // shame on you!
-    /*
     std::cout << "Poll question in class:\n";
     std::cout << "original (lref) = ";
     print_vector(original);
     std::cout << "copy = ";
     print_vector(copy);
-    */
 }
 
 template <typename T>
@@ -52,6 +47,3 @@ void print_vector(const std::vector<T>& vec) {
     }
     std::cout << "}\n";
 }
-
-
-
