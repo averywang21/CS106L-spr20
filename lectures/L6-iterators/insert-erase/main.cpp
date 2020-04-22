@@ -50,7 +50,6 @@ int main() {
 
     // how would you change {3, 4} to {3, 0}? 
 
-
     std::vector<int> vec{10, 20, 30, 40, 50, 60};
     std::set<int> set1{15, 35, 55, 75};
     std::set<int> set2{25, 35, 45, 65, 80, 100};
