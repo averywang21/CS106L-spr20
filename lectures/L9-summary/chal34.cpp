@@ -23,6 +23,8 @@ int countOccurrences(const string& text, const string& feature) {
     * within the given string! To find the second time feature appears within
     * text, therefore, what should you pass in as the "other" string (i.e. 
     * where should you start your "search" from on the second time around)?
+    *
+    * To test your solution, run `make chal34`.
     */
 
     int count = 0;
@@ -45,6 +47,7 @@ int countOccurrences(const string& text, const string& feature) {
  *
  * // DO STUFF ABOVE
  *
+ * To test your solution, run `make chal34`.
  */
 
 
