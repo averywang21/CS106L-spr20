@@ -16,6 +16,8 @@ string fileToString(ifstream& file) {
     * into a single string ret.
     *
     * Where there used to be a line break, instead insert a space (" ").
+    *
+    * To test your solution, run `make chal15`.
     */
 
     string ret = "";
@@ -46,6 +48,7 @@ string fileToString(ifstream& file) {
  *
  * // DO STUFF ABOVE
  *
+ * To test your solution, run `make chal15`.
  */
 
 
