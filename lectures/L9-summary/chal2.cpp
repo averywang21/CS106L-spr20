@@ -44,6 +44,8 @@ vector<int> createCountVec(const string& text) {
     * to search for a *string* within another *string*. As a hint, 
     * take a look at the std::search function here:
     * http://www.cplusplus.com/reference/algorithm/search/
+    *
+    * To test your solution, run `make chal2`.
     */
 
     vector<int> result;
