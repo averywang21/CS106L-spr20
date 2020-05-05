@@ -59,8 +59,8 @@ vector<int> createCountVec(const string& text) {
 		*/
 
 		// An alternate version using the ternary function again:
-		result.push_back(std::search(text.begin(), text.end(), feature.begin(),
-				feature.end()) != text.end() ? 1 : 0);
+		result.push_back(std::search(text.begin(), text.end(), feature.begin(), feature.end())
+				!= text.end() ? 1 : 0);
 	}
 
     return result;
