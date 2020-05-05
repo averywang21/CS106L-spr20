@@ -16,14 +16,19 @@ string fileToString(ifstream& file) {
     * into a single string ret.
     *
     * Where there used to be a line break, instead insert a space (" ").
-    *
-    * To test your solution, run `make chal15`.
     */
 
     string ret = "";
-
-    // DO STUFF HERE
-
+	string line;
+	while (getline(file, line)) {
+		/* For Challenge 5: */
+		auto exclToQues = [](char c) { 
+			return c == '!' ? '?' : c; 
+		};
+		std::transform(line.begin(), line.end(), line.begin(), exclToQues);
+		
+		ret += line + " ";
+	}
     return ret;
 }
 
@@ -48,7 +53,6 @@ string fileToString(ifstream& file) {
  *
  * // DO STUFF ABOVE
  *
- * To test your solution, run `make chal15`.
  */
 
 

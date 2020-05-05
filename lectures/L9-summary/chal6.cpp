@@ -25,13 +25,10 @@ int dotProduct(const vector<int>& v1, const vector<int>& v2) {
     *
     * Your solution should be a single line!
     * If you're stuck, hint: what's another name for the dot product?
-    *
-    * To test your solution, run `make chal6`.
     */
 
     // DO STUFF HERE
-    // Delete the below return statement and replace it with your one-liner!
-    return -1;
+	return std::inner_product(v1.begin(), v1.end(), v2.begin(), 0);    
 }
 
 

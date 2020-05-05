@@ -8,7 +8,8 @@
 using std::cout;    using std::endl;
 using std::search;  using std::string;
 
-int countOccurrences(const string& text, const string& feature) {
+template <typename T>
+int countOccurrences(const T& text, const T& feature) {
     /*
     * CHALLENGE #3:
     * Return the number of times the feature string appears in the
@@ -23,13 +24,19 @@ int countOccurrences(const string& text, const string& feature) {
     * within the given string! To find the second time feature appears within
     * text, therefore, what should you pass in as the "other" string (i.e. 
     * where should you start your "search" from on the second time around)?
-    *
-    * To test your solution, run `make chal34`.
     */
 
     int count = 0;
 
-    // DO STUFF HERE
+	auto curr = text.begin();
+	auto end = text.end();
+	while (curr != end) {
+		auto found = std::search(curr, end, feature.begin(), feature.end());
+		if (found == end) break;
+		
+		++count;
+		curr = found + 1;
+	}
 
     return count;
 }
@@ -47,7 +54,6 @@ int countOccurrences(const string& text, const string& feature) {
  *
  * // DO STUFF ABOVE
  *
- * To test your solution, run `make chal34`.
  */
 
 
