@@ -8,7 +8,8 @@
 using std::cout;    using std::endl;
 using std::search;  using std::string;
 
-int countOccurrences(const string& text, const string& feature) {
+template <typename T>
+int countOccurrences(const T& text, const T& feature) {
     /*
     * CHALLENGE #3:
     * Return the number of times the feature string appears in the
@@ -27,7 +28,15 @@ int countOccurrences(const string& text, const string& feature) {
 
     int count = 0;
 
-    // DO STUFF HERE
+	auto curr = text.begin();
+	auto end = text.end();
+	while (curr != end) {
+		auto found = std::search(curr, end, feature.begin(), feature.end());
+		if (found == end) break;
+		
+		++count;
+		curr = found + 1;
+	}
 
     return count;
 }

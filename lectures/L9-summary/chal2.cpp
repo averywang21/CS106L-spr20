@@ -48,7 +48,20 @@ vector<int> createCountVec(const string& text) {
 
     vector<int> result;
 
-    // DO STUFF HERE
+	for (const string& feature : MYSTERY_VEC) {
+		/* The version we did in lecture:
+		
+		if (std::search(text.begin(), text.end(), feature.begin(), feature.end()) != text.end()) {
+			result.push_back(1);
+		} else {
+			result.push_back(0);
+		}
+		*/
+
+		// An alternate version using the ternary function again:
+		result.push_back(std::search(text.begin(), text.end(), feature.begin(), feature.end())
+				!= text.end() ? 1 : 0);
+	}
 
     return result;
 

@@ -19,9 +19,16 @@ string fileToString(ifstream& file) {
     */
 
     string ret = "";
-
-    // DO STUFF HERE
-
+	string line;
+	while (getline(file, line)) {
+		/* For Challenge 5: */
+		auto exclToQues = [](char c) { 
+			return c == '!' ? '?' : c; 
+		};
+		std::transform(line.begin(), line.end(), line.begin(), exclToQues);
+		
+		ret += line + " ";
+	}
     return ret;
 }
 

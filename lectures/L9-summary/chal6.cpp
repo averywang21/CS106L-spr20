@@ -28,8 +28,7 @@ int dotProduct(const vector<int>& v1, const vector<int>& v2) {
     */
 
     // DO STUFF HERE
-    // Delete the below return statement and replace it with your one-liner!
-    return 0;
+	return std::inner_product(v1.begin(), v1.end(), v2.begin(), 0);    
 }
 
 
