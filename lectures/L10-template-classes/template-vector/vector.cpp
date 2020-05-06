@@ -116,5 +116,6 @@ void vector<T>::swap_elements(InputIt first, InputIt last) {
 // if n <= capcity, don't do anything
 template <typename T>
 void vector<T>::reserve(size_t n) {
+    (void) n;   // silence compiler warning
     // depends on if we have time
 }
