@@ -6,15 +6,15 @@
 
 namespace mycollection {
     template <typename T>
-    class BoundedVector {
+    class vector {
     public:
         // Type alises
         using value_type = T;
         using iterator = T*;
 
         // Special Member Functions
-        BoundedVector(size_t capacity = 10);
-        ~BoundedVector();
+        vector(size_t capacity = 10);
+        ~vector();
 
         // Element Access
         value_type& at(size_t index);
@@ -46,6 +46,7 @@ namespace mycollection {
         template <typename InputIt>
         void swap_elements(InputIt first, InputIt last);
 
+        void reserve(size_t n);
     private:
         value_type* _elems;
         size_t _capacity;

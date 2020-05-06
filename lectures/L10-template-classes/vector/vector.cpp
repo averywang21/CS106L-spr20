@@ -2,57 +2,57 @@
 #include <iostream> 
 
 using namespace mycollection;
-using namespace std;
+// using namespace std; // ambiguous!
 
-BoundedVector::BoundedVector(size_t capacity) {
+vector::vector(size_t capacity) {
     _capacity = capacity;
     _size = 0;
     _elems = new int[_capacity];
 }
 
-BoundedVector::~BoundedVector() {
-    delete _elems;
+vector::~vector() {
+    delete[] _elems;
 }
 
-BoundedVector::value_type& BoundedVector::at(size_t index) {
+vector::value_type& vector::at(size_t index) {
     if (index < 0 || index > size()) 
         throw std::out_of_range("Out of bounds!");
     return _elems[index];
 }
 
-BoundedVector::value_type& BoundedVector::front() {
+vector::value_type& vector::front() {
     return *begin();
 }
 
-BoundedVector::value_type& BoundedVector::back() {
+vector::value_type& vector::back() {
     return *(end() - 1);
 }
     
-BoundedVector::iterator BoundedVector::begin() {
+vector::iterator vector::begin() {
     return _elems;
 }
 
-BoundedVector::iterator BoundedVector::end() {
+vector::iterator vector::end() {
     return _elems + size();
 }
 
-bool BoundedVector::empty() {
+bool vector::empty() {
     return size() == 0;
 }
 
-size_t BoundedVector::size() {
+size_t vector::size() {
     return _size;
 }
 
-size_t BoundedVector::capacity() {
+size_t vector::capacity() {
     return _capacity;
 }
 
-void BoundedVector::clear() {
+void vector::clear() {
     _size = 0;
 }
 
-BoundedVector::iterator BoundedVector::insert(iterator pos, value_type value) {
+vector::iterator vector::insert(iterator pos, value_type value) {
     if (size() == capacity()) 
         throw std::length_error("Exceeded maximum capacity!");
     std::copy(pos, end(), pos+1);
@@ -61,21 +61,28 @@ BoundedVector::iterator BoundedVector::insert(iterator pos, value_type value) {
     return pos;
 }
 
-BoundedVector::iterator BoundedVector::erase(iterator pos) {
+vector::iterator vector::erase(iterator pos) {
     std::copy(pos+1, end(), pos);
     --_size;
     return pos;
 }
 
-void BoundedVector::push_back(value_type value) {
+void vector::push_back(value_type value) {
     insert(end(), value);
 }
 
-void BoundedVector::pop_back() {
+void vector::pop_back() {
     --_size;
 }
 
-void BoundedVector::debug() {
+void vector::debug() {
     std::copy(begin(), end(), std::ostream_iterator<int>(std::cout, " "));
     std::cout << '\n';
+}
+
+// TODO - if n > capacity, then resize the underlying array
+// so that the capcity is n.
+// if n <= capcity, don't do anything
+void vector::reserve(size_t n) {
+    // depends on if we have time
 }

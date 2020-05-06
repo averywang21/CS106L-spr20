@@ -6,7 +6,7 @@ using namespace mycollection;
 using std::cout;
 using std::endl;
 int main() {
-    BoundedVector<int> vec;
+    vector<int> vec;
     vec.push_back(3);
     cout << "After push_back(3)" << endl;
     vec.debug();

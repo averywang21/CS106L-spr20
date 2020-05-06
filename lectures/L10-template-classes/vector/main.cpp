@@ -5,8 +5,9 @@ using namespace mycollection;
 
 using std::cout;
 using std::endl;
-int main() {
-    BoundedVector vec;
+
+void test1(vector& vec) {
+    
     vec.push_back(3);
     cout << "After push_back(3)" << endl;
     vec.debug();
@@ -39,4 +40,21 @@ int main() {
     cout << "After swap elements with a deque{10, 11, 12, 13, 14}" << endl;
     vec.swap_elements(d.begin(), d.end());
     vec.debug();
+
+    /*
+    TODO: add resizing!
+    cout << "Adding 15 16 17 17 18 19 (requires resizing!)" << endl;
+    vec.push_back(15);
+    vec.push_back(16);
+    vec.push_back(17);
+    vec.push_back(18);
+    vec.push_back(19);
+    vec.push_back(20);
+    vec.debug();
+    */
 }
+
+int main() {
+    vector vec;
+    test1(vec);
+} 
