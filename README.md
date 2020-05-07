@@ -24,3 +24,5 @@ L7-templates
 L8-functions
 
 L9-summary
+
+L10-template-classes
