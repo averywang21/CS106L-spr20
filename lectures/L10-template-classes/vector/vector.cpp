@@ -84,5 +84,6 @@ void vector::debug() {
 // so that the capcity is n.
 // if n <= capcity, don't do anything
 void vector::reserve(size_t n) {
+    (void) n; // silence compiler warnings
     // depends on if we have time
 }

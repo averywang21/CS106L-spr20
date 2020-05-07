@@ -7,7 +7,6 @@ using std::cout;
 using std::endl;
 
 void test1(vector& vec) {
-    
     vec.push_back(3);
     cout << "After push_back(3)" << endl;
     vec.debug();
