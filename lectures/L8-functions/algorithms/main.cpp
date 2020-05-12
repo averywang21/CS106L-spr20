@@ -70,21 +70,20 @@ std::vector<double> readNumbers() {
 }
 
 int main() {
-    // Count how many times 5 appears in the second half of a vector<int>.
-    std::vector<int> phoneNumber{5, 5, 5, 8, 2, 6, 5, 5, 3, 5};
-    int times1 = countOccurences(phoneNumber.begin() + phoneNumber.size()/2,
-                                 phoneNumber.end(), 5);
-    std::cout << "the second half of phoneNumber contains " << times1
-              << " elements of 5" << std::endl;
-
-    // Count how many elements in the second half of a vector<int> are less than 5.
-    int times2 = 0; // TODO: Edit this
-    std::cout << "the second half of phoneNumber contains " << times2
-              << " elements that are at less than 5" << std::endl;
 
     // Fun with algorithms.
     auto courses = readCourses();
     auto numbers = readNumbers();
+
+    std::sort(numbers.begin(), numbers.end());
+
+    // given two courses, return true if the left course is less than the right course, false otherwise
+    // course1 < course2 if course1's rating is less than course2's rating
+    auto course_less_than = [](const auto& c1, const auto& c2) {
+        return c1.name < c2.name;
+    };
+    std::sort(courses.begin(), courses.end(), course_less_than);
+
     std::copy(courses.begin(), courses.end(),
               std::ostream_iterator<Course>(std::cout, "\n"));
 

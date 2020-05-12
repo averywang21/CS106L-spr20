@@ -5,6 +5,10 @@ using namespace mycollection;
 
 using std::cout;
 using std::endl;
+
+void print_size(const vector<int>& vec) {
+    cout << vec.size() << endl;
+}
 int main() {
     vector<int> vec;
     vec.push_back(3);

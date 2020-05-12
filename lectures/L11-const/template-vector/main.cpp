@@ -1,17 +1,35 @@
 #include "vector.h"
 #include <iostream>
 #include <deque>
+#include <algorithm>
 using namespace mycollection;
 
 using std::cout;
 using std::endl;
 
-void print_size(const vector<int>& vec) {
+void print_information(const vector<int>& vec) {
+    cout << "these two lines would not compile without today's lecture" << endl;
     cout << vec.size() << endl;
+    cout << vec.at(0) << endl;
+    
+    // cout << "these two lines will not compile without supplemental material (const_iterator implementation)" << endl;
+    // auto max = *std::max_element(vec.begin(), vec.end());
+    // cout << max << endl;
 }
+
+void still_crashes(vector<int> vec) {
+    vector<int> copy = vec;
+    cout << "Before we change copy: " << vec.at(1) << endl;
+    copy.at(1) = 2;
+    cout << "After we change copy: " << vec.at(1) << " (why does changing copy impact vec?)" << endl;
+    cout << "The next line will crash!" << endl;
+} // the code crashes here due to a triple free (delete called on same pointer three times). Why?
+
+
 int main() {
     vector<int> vec;
     vec.push_back(3);
+
     cout << "After push_back(3)" << endl;
     vec.debug();
     vec.push_back(7);
@@ -43,4 +61,9 @@ int main() {
     cout << "After swap elements with a deque{10, 11, 12, 13, 14}" << endl;
     vec.swap_elements(d.begin(), d.end());
     vec.debug();
+
+    vec.at(0) = -10;
+    print_information(vec);
+
+    still_crashes(vec);
 }

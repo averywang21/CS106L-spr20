@@ -38,19 +38,22 @@ void test1(vector& vec) {
     std::deque<int> d {10, 11, 12, 13, 14};
     cout << "After swap elements with a deque{10, 11, 12, 13, 14}" << endl;
     vec.swap_elements(d.begin(), d.end());
+    cout << "DEQUE" << endl;
+    std::copy(d.begin(), d.end(), std::ostream_iterator<int>(std::cout, " "));
+    std::cout << '\n';
     vec.debug();
 
-    /*
-    TODO: add resizing!
+    
+    //TODO: add resizing!
     cout << "Adding 15 16 17 17 18 19 (requires resizing!)" << endl;
     vec.push_back(15);
     vec.push_back(16);
     vec.push_back(17);
     vec.push_back(18);
     vec.push_back(19);
+    vec.debug();
     vec.push_back(20);
     vec.debug();
-    */
 }
 
 int main() {

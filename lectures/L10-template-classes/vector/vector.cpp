@@ -53,8 +53,10 @@ void vector::clear() {
 }
 
 vector::iterator vector::insert(iterator pos, value_type value) {
+    int index = pos - begin();
     if (size() == capacity()) 
-        throw std::length_error("Exceeded maximum capacity!");
+        reserve(2*size());
+    pos = begin() + index;
     std::copy(pos, end(), pos+1);
     *pos = value;
     ++_size;
@@ -84,6 +86,13 @@ void vector::debug() {
 // so that the capcity is n.
 // if n <= capcity, don't do anything
 void vector::reserve(size_t n) {
-    (void) n; // silence compiler warnings
-    // depends on if we have time
+    if (n > capacity()) {
+        value_type *_new_elems = new int[n];
+        for (size_t i = 0; i < size(); i++) {
+            _new_elems[i] = _elems[i];
+        }
+        delete[] _elems;
+        _elems = _new_elems;
+        _capacity = n;
+    }
 }

@@ -5,25 +5,6 @@ using namespace mycollection;
 
 using std::cout;
 using std::endl;
-
-void print_information(const vector<int>& vec) {
-    // these two lines would not compile without today's lecture
-    cout << vec.size() << endl;
-    cout << vec.at(0) << endl;
-    
-    // these two lines would not compile without supplemental material (const_iterator implementation)
-    auto max = *std::max_element(vec.begin(), vec.end());
-    cout << max << endl;
-}
-
-void still_crashes(vector<int> vec) {
-    vector<int> copy = vec;
-    cout << "Before we change copy: " << vec.at(1) << endl;
-    copy.at(1) = 2;
-    cout << "After we change copy: " << vec.at(1) << " (why does changing copy impact vec?)" << endl;
-    cout << "The next line will crash!" << endl;
-} // the code crashes here due to a double free (delete called on same pointer twice). Why?
-
 int main() {
     vector<int> vec;
     vec.push_back(3);
@@ -58,9 +39,4 @@ int main() {
     cout << "After swap elements with a deque{10, 11, 12, 13, 14}" << endl;
     vec.swap_elements(d.begin(), d.end());
     vec.debug();
-
-    vec.at(0) = -10;
-    print_information(vec);
-
-    still_crashes(vec);
 }
