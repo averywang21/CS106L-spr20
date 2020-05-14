@@ -47,8 +47,8 @@ namespace mycollection {
         void pop_back();
 
 		// Operators (as member functions)
-		// TODO: Implement the += operator!
-		// TODO: Implement the subscript [] operator!
+		vector<T>& operator+=(const T& element);
+		vector<T>& operator+=(const vector<T>& other);
 
         // For Debugging Only
         void debug() const;
@@ -66,7 +66,7 @@ namespace mycollection {
         size_t _size;
 
 		// Operators (as non-member functions but friends)
-		// TODO: Rewrite the << operator as a friend!
+		// Optional: Rewrite the << operator as a friend!
     };
 }
 
@@ -75,7 +75,25 @@ namespace mycollection {
 using mycollection::vector;
 
 // Operators (as non-member functions)
-// TODO: Implement the + operator!
-// TODO: Implement the << operator!
+template <typename T>
+vector<T> operator+(const vector<T>& lhs, const T& rhs) {
+	vector<T> copy = lhs;
+	copy += rhs;
+	return copy;
+}
+
+template <typename T>
+vector<T> operator+(const T& lhs, const vector<T>& rhs) {
+	vector<T> copy = rhs;
+	copy += lhs;
+	return copy;
+}
+
+template <typename T>
+std::ostream& operator<<(std::ostream& out, const vector<T>& rhs) {
+	std::copy(rhs.begin(), rhs.end(), std::ostream_iterator<T>(out, "\n"));
+	out << std::endl;
+	return out;
+}
 
 #endif /* BOUNDED_VECTOR */

@@ -68,7 +68,7 @@ int main() {
     vec.debug();
 	print_information(vec);
 
-	/*cout << "Testing operators now..." << endl;
+	cout << "Testing operators now..." << endl;
 	cout << "After vec += 3" << endl;
 	vec += 3;
 	vec.debug();
@@ -78,13 +78,16 @@ int main() {
 	vec2.push_back(1);
 	vec += vec2;
 	vec.debug();
+	
+	cout << vec << endl;
+	
 	// This test is broken until the copy constructors lecture!
 	// cout << "After vec3 = vec + vec2" << endl;
 	// vector<int> vec3 = vec + vec2;
 	// vec.debug();
 	cout << "Testing << operator" << endl;
 	cout << vec << endl;
-    cout << endl;*/
+    cout << endl;
 
 	still_crashes(vec);
 }

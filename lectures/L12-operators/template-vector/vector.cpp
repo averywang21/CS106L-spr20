@@ -130,13 +130,22 @@ void vector<T>::pop_back() {
 }
 
 // Operators (as member functions)
+template <typename T>
+vector<T>& vector<T>::operator+=(const T& element) {
+	push_back(element);
+	return *this;
+}
+
+template <typename T>
+vector<T>& vector<T>::operator+=(const vector<T>& other) {
+	for (const T& val : other) push_back(val);
+	return *this;
+}
 
 // Debugging
 template <typename T>
 void vector<T>::debug() const {
-    std::copy(begin(), end(), std::ostream_iterator<T>(std::cout, " "));
-    std::cout << '\n';
-//	std::cout << *this;
+	std::cout << *this;
 }
 
 template <typename T>
