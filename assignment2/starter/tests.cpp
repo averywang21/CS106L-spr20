@@ -20,7 +20,7 @@ using namespace std;
 using clock_type = std::chrono::high_resolution_clock;
 using ms = std::chrono::nanoseconds;
 const std::vector<std::pair<std::string, int> > vec {
-   {"A", 3}, {"B", 2}, {"C", 1}, {"A", -5}, {"B", 3}, {"A", 5}, {"C", 1}
+    {"A", 3}, {"B", 2}, {"C", 1}, {"A", -5}, {"B", 3}, {"A", 5}, {"C", 1}
 };
 
 const std::vector<std::string> keys {"A", "B", "C", "Not found"};
@@ -28,7 +28,7 @@ template <typename Map1, typename Map2> bool check_equal(Map1& map, Map2& answer
     if (answer.empty() != map.empty() || answer.size() != map.size()) return false;
 
     for (const auto& [key, mapped] : answer) {
-       if(map.contains(key) == false || map.at(key) != mapped) return false;
+        if(map.contains(key) == false || map.at(key) != mapped) return false;
     }
     return true;
 }
@@ -46,27 +46,42 @@ void CHECK_EQUAL(bool condition, int id) {
 /* Starter Code Test Cases (DO NOT EDIT) */
 
 void A_basic() {
-   std::map<std::string, int> answer;
-   HashMap<std::string, int> map;
-   CHECK_EQUAL(check_equal(map, answer), __LINE__);
-   CHECK_EQUAL(map.bucket_count() == 10, __LINE__);
+    /*
+    * Verifies basic operations by comparing behavior with std::map
+    *      - default constructor
+    *      - size, empty, bucket_count
+    *      - contains, at (used as an r-value)
+    *
+    * Mainly checking that check_equal compiles correctly.
+    */
+    std::map<std::string, int> answer;
+    HashMap<std::string, int> map;
+    CHECK_EQUAL(check_equal(map, answer), __LINE__);
+    CHECK_EQUAL(map.bucket_count() == 10, __LINE__);
 }
 void B_insert() {
-   std::map<std::string, int> answer;
-   HashMap<std::string, int> map;
-   CHECK_EQUAL(check_equal(map, answer), __LINE__);
-   CHECK_EQUAL(map.bucket_count() == 10, __LINE__);
+    /*
+    * Verifies functionality of insert.
+    */
+    std::map<std::string, int> answer;
+    HashMap<std::string, int> map;
+    CHECK_EQUAL(check_equal(map, answer), __LINE__);
+    CHECK_EQUAL(map.bucket_count() == 10, __LINE__);
 
-   for (const auto& kv_pair : vec) {
-       answer.insert(kv_pair);
-       map.insert(kv_pair);
-       CHECK_EQUAL(check_equal(map, answer), __LINE__);
-   }
+    for (const auto& kv_pair : vec) {
+        answer.insert(kv_pair);
+        map.insert(kv_pair);
+        CHECK_EQUAL(check_equal(map, answer), __LINE__);
+    }
 
-   CHECK_EQUAL(map.bucket_count() == 10, __LINE__);
+    CHECK_EQUAL(map.bucket_count() == 10, __LINE__);
 }
 
 void C_clear() {
+    /*
+    * Tests clear operations, and ensure map is in valid
+    * state after a call to clear.
+    */
     std::map<std::string, int> answer;
     HashMap<std::string, int> map;
 
@@ -83,6 +98,9 @@ void C_clear() {
     }
 }
 void D_at_test() {
+    /*
+    * Tests whether at correctly returns a reference.
+    */
     std::map<std::string, int> answer;
     HashMap<std::string, int> map;
     answer.insert({"A", 42});
@@ -128,9 +146,11 @@ void D_at_test() {
     CHECK_EQUAL(correct_exception, __LINE__);
 }
 
-
-
 void E_custom_bucket_count() {
+    /*
+    * Tests constructor taking in num_buckets, while hash function
+    * still uses the default. Also tests correct function of load_factor.
+    */
     HashMap<int, int> many_buckets(10000);
     HashMap<int, int> one_bucket(1);
     std::map<int, int> answer;
@@ -176,43 +196,52 @@ void F_custom_hash_function() {
 }
 #if RUN_TEST_1A
 void A_erase() {
-   std::map<std::string, int> answer;
-   HashMap<std::string, int> map;
+    /*
+    * Tests erase operation in combination with basic operations.
+    */
+    std::map<std::string, int> answer;
+    HashMap<std::string, int> map;
 
-   for (const auto& kv_pair : vec) {
-       answer.insert(kv_pair);
-       map.insert(kv_pair);
-   }
+    for (const auto& kv_pair : vec) {
+        answer.insert(kv_pair);
+        map.insert(kv_pair);
+    }
 
-   // remove one and insert two back at a time
-   for (size_t i = 0; i < vec.size(); ++i) {
-       auto& [key1, mapped1] = vec[i];
-       auto& pair2 = vec[(i+3) % vec.size()];
-       answer.erase(key1);
-       map.erase(key1);
-       CHECK_EQUAL(check_equal(map, answer), __LINE__);
+    // remove one and insert two back at a time
+    for (size_t i = 0; i < vec.size(); ++i) {
+        auto& [key1, mapped1] = vec[i];
+        auto& pair2 = vec[(i+3) % vec.size()];
+        answer.erase(key1);
+        map.erase(key1);
+        CHECK_EQUAL(check_equal(map, answer), __LINE__);
 
-       answer.erase("Not a key");
-       map.erase("Not a key");
-       CHECK_EQUAL(check_equal(map, answer), __LINE__);
+        answer.erase("Not a key");
+        map.erase("Not a key");
+        CHECK_EQUAL(check_equal(map, answer), __LINE__);
 
-       answer.insert(pair2);
-       map.insert(pair2);
-   }
+        answer.insert(pair2);
+        map.insert(pair2);
+    }
 
-   // remove one at a time, until map is empty
-   for (size_t i = 0; i < vec.size(); ++i) {
-       auto& [key1, mapped1] = vec[(i+3) % vec.size()];
-       answer.erase(key1);
-       map.erase(key1);
+    // remove one at a time, until map is empty
+    for (size_t i = 0; i < vec.size(); ++i) {
+        auto& [key1, mapped1] = vec[(i+3) % vec.size()];
+        answer.erase(key1);
+        map.erase(key1);
 
-       CHECK_EQUAL(check_equal(map, answer), __LINE__);
-   }
+        CHECK_EQUAL(check_equal(map, answer), __LINE__);
+    }
 }
 #endif
 
 #if RUN_TEST_1B
 void B_rehash_basic() {
+    /*
+    * Verifies external correctness after call to M1_Review.
+    * Note that this does not actually verify if the linked lists are correct,
+    * merely verifies that after call to M1_Review, all method calls are still valid,
+    * and bucket_count is correct.
+    */
     HashMap<int, int> map;
     std::map<int, int> answer;
     std::vector<int> vals;
@@ -250,80 +279,105 @@ void B_rehash_basic() {
 
 #if RUN_TEST_1C
 void C_rehash_correctness_by_time() {
-   using K = int;
-   using V = int;
-   float tolerance = 0.5;      // makes me feel like an engineer, probably using the term wrong
-   int trials = 10;           // increase if necessary, Central Limit Theorem!
+    /*
+    * This test tries to check if you hashed elements to the buckets correctly
+    * by adding a specific number of elements, and measuring the time it takes
+    * to call contains. The idea is that if bucket 0 is supposed to have 10 times
+    * the number of elements as bucket 1, calling contains on an element
+    * that should be hashed to bucket 0 but is not present should take 10 times
+    * longer that calling contains on an element that should be hashed to bucket 1
+    * but is not present.
+    *
+    * Obviously, this is less than perfect, since it's hard to predict how
+    * fast your computer is running linked list operations. There are two parameters
+    * below. One is called tolerance (let me know if I'm using the term incorrectly)
+    * which determines the amount of leeway we give for any differences from the
+    * expected time (0.5 means 50% leeway). The second is trials. You can try
+    * increasing that to see if you get better results.
+    *
+    * Play around with this and let me know if you find something interesting,
+    * or if you have suggestions to make this test better. There are also
+    * cool number theory results, as hashing is inherently an idea from
+    * cryptography. Ask Avery if you are curious!
+    */
+    using K = int;
+    using V = int;
+    float tolerance = 0.5;      // makes me feel like an engineer, probably using the term wrong
+    int trials = 10;           // increase if necessary, Central Limit Theorem!
 
-   // in case std::hash<K> is different on your compiler.
-   auto identity = [](const K& key) { return key; };
+    // in case std::hash<K> is different on your compiler.
+    auto identity = [](const K& key) { return key; };
 
-   HashMap<K, V, decltype(identity)> map(6, identity);
+    HashMap<K, V, decltype(identity)> map(6, identity);
 
-   // bucket(elements): 0(0), 1(100), 2(1500), 3(500), 4(1500), 5(6000)
-   for (int i = 1; i <= 100; ++i) map.insert({6*i+1, i}); // bucket 1
-   for (int i = 1; i <= 1500; ++i) map.insert({6*i+2, i}); // bucket 2
-   for (int i = 1; i <= 500; ++i) map.insert({6*i+3, i}); // bucket 3
-   for (int i = 1; i <= 1500; ++i) map.insert({6*i+4, i}); // bucket 4
-   for (int i = 1; i <= 6000; ++i) map.insert({6*i+5, i}); // bucket 5
-   std::map<int, float> bucket_times_6;
+    // bucket(elements): 0(0), 1(100), 2(1500), 3(500), 4(1500), 5(6000)
+    for (int i = 1; i <= 100; ++i) map.insert({6*i+1, i}); // bucket 1
+    for (int i = 1; i <= 1500; ++i) map.insert({6*i+2, i}); // bucket 2
+    for (int i = 1; i <= 500; ++i) map.insert({6*i+3, i}); // bucket 3
+    for (int i = 1; i <= 1500; ++i) map.insert({6*i+4, i}); // bucket 4
+    for (int i = 1; i <= 6000; ++i) map.insert({6*i+5, i}); // bucket 5
+    std::map<int, float> bucket_times_6;
 
-   for (int i = 0; i < 6; ++i) {
-       auto start = clock_type::now();
-       for (int j = 0; j < trials; ++j) map.contains(i);
-       auto end = clock_type::now();
-       auto elapsed = std::chrono::duration_cast<ms>(end - start);
-       bucket_times_6.insert({i, elapsed.count()});
-   }
+    for (int i = 0; i < 6; ++i) {
+        auto start = clock_type::now();
+        for (int j = 0; j < trials; ++j) map.contains(i);
+        auto end = clock_type::now();
+        auto elapsed = std::chrono::duration_cast<ms>(end - start);
+        bucket_times_6.insert({i, elapsed.count()});
+    }
 
-   map.rehash(3);
-   std::map<int, float> bucket_times_3;
-   for (int i = 0; i < 3; ++i) {
-       auto start = clock_type::now();
-       for (int j = 0; j < trials; ++j) map.contains(i);
-       auto end = clock_type::now();
-       auto elapsed = std::chrono::duration_cast<ms>(end - start);
-       bucket_times_3.insert({i, elapsed.count()});
-   }
+    map.rehash(3);
+    std::map<int, float> bucket_times_3;
+    for (int i = 0; i < 3; ++i) {
+        auto start = clock_type::now();
+        for (int j = 0; j < trials; ++j) map.contains(i);
+        auto end = clock_type::now();
+        auto elapsed = std::chrono::duration_cast<ms>(end - start);
+        bucket_times_3.insert({i, elapsed.count()});
+    }
 
-   map.rehash(2);
-   std::map<int, float> bucket_times_2;
-   for (int i = 0; i < 2; ++i) {
-       auto start = clock_type::now();
-       for (int j = 0; j < trials; ++j) map.contains(i);
-       auto end = clock_type::now();
-       auto elapsed = std::chrono::duration_cast<ms>(end - start);
-       bucket_times_2.insert({i, elapsed.count()});
-   }
+    map.rehash(2);
+    std::map<int, float> bucket_times_2;
+    for (int i = 0; i < 2; ++i) {
+        auto start = clock_type::now();
+        for (int j = 0; j < trials; ++j) map.contains(i);
+        auto end = clock_type::now();
+        auto elapsed = std::chrono::duration_cast<ms>(end - start);
+        bucket_times_2.insert({i, elapsed.count()});
+    }
 
-   // Time to pull out the Chinese Remainder Theorem!
-   // take the unique bijection Z/6 -> Z/3 x Z/2
-   // bucket(elements) mod 6: 0(0), 1(100), 2(1500), 3(500), 4(1500), 5(6000)
-   // bucket(elements) mod 3: 0+3(500), 1+4(1600), 2+5(7500)
-   // bucket(elements) mod 2: 0+2+4(3000), 1+3+5(7500)
+    // Time to pull out the Chinese Remainder Theorem!
+    // take the unique bijection Z/6 -> Z/3 x Z/2
+    // bucket(elements) mod 6: 0(0), 1(100), 2(1500), 3(500), 4(1500), 5(6000)
+    // bucket(elements) mod 3: 0+3(500), 1+4(1600), 2+5(7500)
+    // bucket(elements) mod 2: 0+2+4(3000), 1+3+5(7500)
 
-   float ratio6_10 = float(bucket_times_6[1])/(bucket_times_6[0]+1);
-   float ratio6_23 = bucket_times_6[2]/bucket_times_6[3]; // expected: 1500/500
-   float ratio6_54 = bucket_times_6[5]/bucket_times_6[4]; // expected: 6000/1500
-   float ratio3_10 = bucket_times_3[1]/bucket_times_3[0]; // expected: 1600/500
-   float ratio3_21 = bucket_times_3[2]/bucket_times_3[1]; // expected: 7500/1600
-   float ratio2_10 = bucket_times_2[1]/bucket_times_2[0]; // expected: 7500/3000
+    float ratio6_10 = float(bucket_times_6[1])/(bucket_times_6[0]+1);
+    float ratio6_23 = bucket_times_6[2]/bucket_times_6[3]; // expected: 1500/500
+    float ratio6_54 = bucket_times_6[5]/bucket_times_6[4]; // expected: 6000/1500
+    float ratio3_10 = bucket_times_3[1]/bucket_times_3[0]; // expected: 1600/500
+    float ratio3_21 = bucket_times_3[2]/bucket_times_3[1]; // expected: 7500/1600
+    float ratio2_10 = bucket_times_2[1]/bucket_times_2[0]; // expected: 7500/3000
 
-   // experiments are noisy, so let's give you some acceptable tolerance
-   CHECK_EQUAL(ratio6_10 > 10, __LINE__);
-   CHECK_EQUAL(ratio6_23 < (1+tolerance)*1500/500 && ratio6_23 > 1/(1+tolerance)*1500/500, __LINE__);
-   CHECK_EQUAL(ratio6_54 < (1+tolerance)*6000/1500 && ratio6_54 > 1/(1+tolerance)*6000/1500, __LINE__);
-   CHECK_EQUAL(ratio3_10 < (1+tolerance)*1600/500 && ratio3_10 > 1/(1+tolerance)*1600/500, __LINE__);
-   CHECK_EQUAL(ratio3_21 < (1+tolerance)*7500/1600 && ratio3_21 > 1/(1+tolerance)*7500/1600, __LINE__);
-   CHECK_EQUAL(ratio2_10 < (1+tolerance)*7500/3000 && ratio2_10 > 1/(1+tolerance)*7500/3000, __LINE__);
+    // experiments are noisy, so let's give you some acceptable tolerance
+    CHECK_EQUAL(ratio6_10 > 10, __LINE__);
+    CHECK_EQUAL(ratio6_23 < (1+tolerance)*1500/500 && ratio6_23 > 1/(1+tolerance)*1500/500, __LINE__);
+    CHECK_EQUAL(ratio6_54 < (1+tolerance)*6000/1500 && ratio6_54 > 1/(1+tolerance)*6000/1500, __LINE__);
+    CHECK_EQUAL(ratio3_10 < (1+tolerance)*1600/500 && ratio3_10 > 1/(1+tolerance)*1600/500, __LINE__);
+    CHECK_EQUAL(ratio3_21 < (1+tolerance)*7500/1600 && ratio3_21 > 1/(1+tolerance)*7500/1600, __LINE__);
+    CHECK_EQUAL(ratio2_10 < (1+tolerance)*7500/3000 && ratio2_10 > 1/(1+tolerance)*7500/3000, __LINE__);
 
-   // fun fact: we had to add an -O0 flag because the compiler was optimizing our code
-   // a little too well. Turns out that the runtime all of these is the same with optimization (!)
+    // fun fact: we had to add an -O0 flag because the compiler was optimizing our code
+    // a little too well. Turns out that the runtime all of these is the same with optimization (!)
 }
 #endif
 
 #if RUN_TEST_2A
 void A_index_operator() {
+    /*
+     * Tests the indexing operator to ensure it has the functionality of at(),
+     * and also supports auto-insertion.
+     */
     std::map<std::string, int> answer;
     HashMap<std::string, int> map;
     CHECK_EQUAL(check_equal(map, answer), 0);
@@ -340,6 +394,13 @@ void A_index_operator() {
 
 #if RUN_TEST_2B
 void B_stream_insertion_operator() {
+    /*
+     * Tries to insert the map into various streams.
+     * The format is described on the handout:
+     * {Avery:2, Anna:3}
+     * {}
+     * {Avery:2}
+     */
     HashMap<std::string, int> map;
 
     std::ostringstream oss1;
@@ -365,6 +426,7 @@ void B_stream_insertion_operator() {
 
 #if RUN_TEST_2C
 void C_equality_operator() {
+    /* Checks functionality of == and != */
     HashMap<int, int> map1(100);
     HashMap<int, int> map2(1);
     CHECK_EQUAL(map1 == map2 && map2 == map1 && map1 == map1 && map2 == map2, __LINE__);
@@ -404,6 +466,11 @@ void C_equality_operator() {
 
 #if RUN_TEST_2D
 void D_const_correctness() {
+    /*
+     * Checks that your HashMap class is const-correct.
+     * The hard part about this test is not getting it to pass.
+     * It is to get it to compile!
+     */
     std::map<std::string, int> answer;
     HashMap<std::string, int> map1;
     HashMap<std::string, int> map2;
@@ -449,344 +516,359 @@ void D_const_correctness() {
 
 #if RUN_TEST_3A
 void A_copy_constructor_assignment() {
-   HashMap<std::string, int> map;
+    /* Checks correctness of copy constructor and copy assignment operator */
+    HashMap<std::string, int> map;
 
-   for (const auto& kv_pair : vec) {
-       map.insert(kv_pair);
-   }
+    for (const auto& kv_pair : vec) {
+        map.insert(kv_pair);
+    }
 
-   HashMap<std::string, int> copy_constructed{map};
-   HashMap<std::string, int> copy_assigned;
-   copy_assigned = map;
-   CHECK_EQUAL(map == copy_constructed, __LINE__);
-   CHECK_EQUAL(map == copy_assigned, __LINE__);
+    HashMap<std::string, int> copy_constructed{map};
+    HashMap<std::string, int> copy_assigned;
+    copy_assigned = map;
+    CHECK_EQUAL(map == copy_constructed, __LINE__);
+    CHECK_EQUAL(map == copy_assigned, __LINE__);
 
-   map.clear();
-   CHECK_EQUAL(map != copy_constructed, __LINE__);
-   CHECK_EQUAL(map != copy_assigned, __LINE__);
-   CHECK_EQUAL(copy_constructed == copy_assigned, __LINE__);
+    map.clear();
+    CHECK_EQUAL(map != copy_constructed, __LINE__);
+    CHECK_EQUAL(map != copy_assigned, __LINE__);
+    CHECK_EQUAL(copy_constructed == copy_assigned, __LINE__);
 
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wself-assign-overloaded" // suppress the really annoying warnings
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Wself-assign-overloaded" // suppress the really annoying warnings
     // start doing weird things to the map
-   copy_constructed = copy_constructed;
-   copy_assigned = (copy_assigned = copy_assigned) = copy_assigned;
+    copy_constructed = copy_constructed;
+    copy_assigned = (copy_assigned = copy_assigned) = copy_assigned;
 
-   map = map = map = map;
-   CHECK_EQUAL(map.empty(), __LINE__);
+    map = map = map = map;
+    CHECK_EQUAL(map.empty(), __LINE__);
 #pragma GCC diagnostic pop
 }
 #endif
 #if RUN_TEST_3B
 void B_move_constructor_assignment() {
-   HashMap<std::string, int> map1;
-   HashMap<std::string, int> map2;
-   HashMap<std::string, int> map_copy;
+    /* Checks correctness of move constructor and move assignment operator */
+    HashMap<std::string, int> map1;
+    HashMap<std::string, int> map2;
+    HashMap<std::string, int> map_copy;
 
-   for (const auto& kv_pair : vec) {
-       map1.insert(kv_pair);
-       map2.insert(kv_pair);
-       map_copy.insert(kv_pair);
-   }
-   CHECK_EQUAL(map1 == map_copy, __LINE__);
-   CHECK_EQUAL(std::move(map1) == map_copy, __LINE__);
-   HashMap<std::string, int> move_constructed{std::move(map1)}; 
-   HashMap<std::string, int> move_assigned;
+    for (const auto& kv_pair : vec) {
+        map1.insert(kv_pair);
+        map2.insert(kv_pair);
+        map_copy.insert(kv_pair);
+    }
+    CHECK_EQUAL(map1 == map_copy, __LINE__);
+    CHECK_EQUAL(std::move(map1) == map_copy, __LINE__);
+    HashMap<std::string, int> move_constructed{std::move(map1)}; 
+    HashMap<std::string, int> move_assigned;
 
-   move_assigned = std::move(map2);
-   CHECK_EQUAL(map_copy == move_constructed, __LINE__);
-   CHECK_EQUAL(map_copy == move_assigned, __LINE__);
-   map1 = move_constructed;                        // SHORT ANSWER QUESTION 2: ensure map1 still in a valid state.
-   CHECK_EQUAL(map1 == move_constructed, __LINE__);
+    move_assigned = std::move(map2);
+    CHECK_EQUAL(map_copy == move_constructed, __LINE__);
+    CHECK_EQUAL(map_copy == move_assigned, __LINE__);
+    map1 = move_constructed;                        // SHORT ANSWER QUESTION 2: ensure map1 still in a valid state.
+    CHECK_EQUAL(map1 == move_constructed, __LINE__);
 
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wself-move" // suppress annoying warnings about self-assignment
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Wself-move" // suppress annoying warnings about self-assignment
 
-   // let's start doing weird things to our map
-   map1 = std::move(map1);
-   (map1 = std::move(map1)) = map1 = std::move(map1 = map1 = std::move(map1));
-   CHECK_EQUAL(map1 == move_constructed, __LINE__);
+    // let's start doing weird things to our map
+    map1 = std::move(map1);
+    (map1 = std::move(map1)) = map1 = std::move(map1 = map1 = std::move(map1));
+    CHECK_EQUAL(map1 == move_constructed, __LINE__);
 
-   // edge case with empty map
-   HashMap<std::string, int> empty1;
-   HashMap<std::string, int> empty2;
-   empty1 = std::move(empty1);
-   CHECK_EQUAL(empty1 == empty2, __LINE__);
-   empty2 = std::move(map1);
-   CHECK_EQUAL(empty2 == move_constructed, __LINE__);
+    // edge case with empty map
+    HashMap<std::string, int> empty1;
+    HashMap<std::string, int> empty2;
+    empty1 = std::move(empty1);
+    CHECK_EQUAL(empty1 == empty2, __LINE__);
+    empty2 = std::move(map1);
+    CHECK_EQUAL(empty2 == move_constructed, __LINE__);
 
-#pragma GCC diagnostic pop
+    #pragma GCC diagnostic pop
 
-}
+    }
 #endif
 
 #if RUN_TEST_3C
 void C_move_time() {
-   HashMap<int, int> map1;
-   HashMap<int, int> map2;
-   HashMap<int, int> map_copy;
-   std::map<int, int> answer;
+    /* Checks the efficiency of the move operations (must be much faster than copy) */
+    HashMap<int, int> map1;
+    HashMap<int, int> map2;
+    HashMap<int, int> map_copy;
+    std::map<int, int> answer;
 
-   for (size_t i = 0; i < 10000; ++i) {
-       map1.insert({i, i*i});
-       map2.insert({i, i*i});
-       answer.insert({i, i*i});
-   }
-   {
-       auto start = clock_type::now();
-       HashMap<int, int> move_constructed = std::move(map1);
-       auto end = clock_type::now();
-       auto elapsed = std::chrono::duration_cast<ms>(end - start);
-       CHECK_EQUAL(check_equal(move_constructed,answer), __LINE__);
-       CHECK_EQUAL(elapsed.count() < 10000, __LINE__);
-   }
+    for (size_t i = 0; i < 10000; ++i) {
+        map1.insert({i, i*i});
+        map2.insert({i, i*i});
+        answer.insert({i, i*i});
+    }
+    {
+        auto start = clock_type::now();
+        HashMap<int, int> move_constructed = std::move(map1);
+        auto end = clock_type::now();
+        auto elapsed = std::chrono::duration_cast<ms>(end - start);
+        CHECK_EQUAL(check_equal(move_constructed,answer), __LINE__);
+        CHECK_EQUAL(elapsed.count() < 10000, __LINE__);
+    }
 
-   {
-       auto start = clock_type::now();
-       HashMap<int, int> move_assigned;
-       move_assigned = std::move(map2);
-       auto end = clock_type::now();
-       auto elapsed = std::chrono::duration_cast<ms>(end - start);
-       CHECK_EQUAL(check_equal(move_assigned,answer), __LINE__);
-       CHECK_EQUAL(elapsed.count() < 10000, __LINE__);
-   }
+    {
+        auto start = clock_type::now();
+        HashMap<int, int> move_assigned;
+        move_assigned = std::move(map2);
+        auto end = clock_type::now();
+        auto elapsed = std::chrono::duration_cast<ms>(end - start);
+        CHECK_EQUAL(check_equal(move_assigned,answer), __LINE__);
+        CHECK_EQUAL(elapsed.count() < 10000, __LINE__);
+    }
 }
 #endif
 
 #if RUN_TEST_6A
 void A_iterator_for_each_basic() {
-   std::set<std::pair<int, int> > questions {
-       {1, 1}, {2, 2}, {30, 30}, {140, 140}, {21, 21}
-   };
+    /* Tests whether iterators are supported via a simple for-each loop
+     * Uses begin() and end() of your HashMap, in addition to
+     * the constructor and operators =, !=, and ++ of your iterator.
+     */
+    std::set<std::pair<int, int> > questions {
+        {1, 1}, {2, 2}, {30, 30}, {140, 140}, {21, 21}
+    };
 
-   HashMap<int, int> map10;            // can your iterator traverse normal use case?
-   for (const auto& pair : questions) {
-       map10.insert(pair);
-   }
-   std::set<std::pair<int, int> > answers10;
-   for (const auto& pair : map10) CHECK_EQUAL(answers10.insert(pair).second == true, __LINE__);
+    HashMap<int, int> map10;            // can your iterator traverse normal use case?
+    for (const auto& pair : questions) {
+        map10.insert(pair);
+    }
+    std::set<std::pair<int, int> > answers10;
+    for (const auto& pair : map10) CHECK_EQUAL(answers10.insert(pair).second == true, __LINE__);
 
-   CHECK_EQUAL(questions == answers10, __LINE__);
+    CHECK_EQUAL(questions == answers10, __LINE__);
 }
 #endif
 
 #if RUN_TEST_6B
 void B_iterator_for_each_edge() {
-   std::set<std::pair<int, int> > questions {
-       {0, 0}, {1, 1}, {2, 2}, {3, 3}, {4, 4}
-   };
+    /* Tests a few edge cases for your iterator, such as checking the bounds */
+    std::set<std::pair<int, int> > questions {
+        {0, 0}, {1, 1}, {2, 2}, {3, 3}, {4, 4}
+    };
 
-   HashMap<int, int> map1(1);      // one bucket with all the elements
-   HashMap<int, int> map5(5);      // exactly one per bucket
-   HashMap<int, int> map10(100);   // a lot of empty buckets
-   HashMap<int, int> empty;        // won't add anything to this one
+    HashMap<int, int> map1(1);      // one bucket with all the elements
+    HashMap<int, int> map5(5);      // exactly one per bucket
+    HashMap<int, int> map10(100);   // a lot of empty buckets
+    HashMap<int, int> empty;        // won't add anything to this one
 
-   for (const auto& pair : questions) {
-       map1.insert(pair);
-       map5.insert(pair);
-       map10.insert(pair);
-   }
-   std::set<std::pair<int, int> > answers1, answers5, answers10;
-   for (const auto& pair : map1) CHECK_EQUAL(answers1.insert(pair).second == true, __LINE__);
-   for (const auto& pair : map5) CHECK_EQUAL(answers5.insert(pair).second == true, __LINE__);
-   for (const auto& pair : map10) CHECK_EQUAL(answers10.insert(pair).second == true, __LINE__);
-   for (const auto& pair __attribute__((unused)) : empty) CHECK_EQUAL(false, __LINE__); // this should not run!
+    for (const auto& pair : questions) {
+        map1.insert(pair);
+        map5.insert(pair);
+        map10.insert(pair);
+    }
+    std::set<std::pair<int, int> > answers1, answers5, answers10;
+    for (const auto& pair : map1) CHECK_EQUAL(answers1.insert(pair).second == true, __LINE__);
+    for (const auto& pair : map5) CHECK_EQUAL(answers5.insert(pair).second == true, __LINE__);
+    for (const auto& pair : map10) CHECK_EQUAL(answers10.insert(pair).second == true, __LINE__);
+    for (const auto& pair __attribute__((unused)) : empty) CHECK_EQUAL(false, __LINE__); // this should not run!
 
-   CHECK_EQUAL(questions == answers1, __LINE__);
-   CHECK_EQUAL(questions == answers5, __LINE__);
-   CHECK_EQUAL(questions == answers10, __LINE__);
+    CHECK_EQUAL(questions == answers1, __LINE__);
+    CHECK_EQUAL(questions == answers5, __LINE__);
+    CHECK_EQUAL(questions == answers10, __LINE__);
 }
 #endif
 
 #if RUN_TEST_6C
 void C_iterator_operators() {
-   std::set<std::pair<int, int> > questions {
-       {1, 1}, {2, 2}, {3, 3}
-   };
+    /* Tests the more advanced operators, that are required
+     * since the iterator can be a forward iterator */
+    std::set<std::pair<int, int> > questions {
+        {1, 1}, {2, 2}, {3, 3}
+    };
     // Note to reader: yes, I spent so much time writing these awesome test cases
     // and then decided to make this part optional. What a great use of my spring break.
     // It's not like I have anything else to do, right?
 
 
-   HashMap<int, int> map;            // can your iterator traverse normal use case?
-   for (const auto& pair : questions) {
-       map.insert(pair);
-   }
+    HashMap<int, int> map;            // can your iterator traverse normal use case?
+    for (const auto& pair : questions) {
+        map.insert(pair);
+    }
 
-   // note: we make no assumptions about which specifc element is in which order!
-   auto iter = map.begin();                    // iter->0th element
-   CHECK_EQUAL((*iter).first == (*iter).second, __LINE__);   // behavior of * operator
-   CHECK_EQUAL(iter->first == iter->second, __LINE__);       // behavior of -> operator
-   CHECK_EQUAL(iter == iter, __LINE__);                      // behavior of == operator
-   CHECK_EQUAL(!(iter != iter), __LINE__);                   // behavior of != operator
+    // note: we make no assumptions about which specifc element is in which order!
+    auto iter = map.begin();                    // iter->0th element
+    CHECK_EQUAL((*iter).first == (*iter).second, __LINE__);   // behavior of * operator
+    CHECK_EQUAL(iter->first == iter->second, __LINE__);       // behavior of -> operator
+    CHECK_EQUAL(iter == iter, __LINE__);                      // behavior of == operator
+    CHECK_EQUAL(!(iter != iter), __LINE__);                   // behavior of != operator
 
-   (*iter).second = -1;                        // behavior of * operator as an l-value
-   CHECK_EQUAL((*iter).second == -1, __LINE__);    // behavior of * operator as an r-value
-   iter->second = -2;                          // behavior of -> operator as an l-value
-   CHECK_EQUAL(iter->second == -2, __LINE__);      // behavior of -> operator as an r-value
+    (*iter).second = -1;                        // behavior of * operator as an l-value
+    CHECK_EQUAL((*iter).second == -1, __LINE__);    // behavior of * operator as an r-value
+    iter->second = -2;                          // behavior of -> operator as an l-value
+    CHECK_EQUAL(iter->second == -2, __LINE__);      // behavior of -> operator as an r-value
 
-   // verify correct prefix/postfix behavior (this was very tedious)
-   HashMap<int, int>::iterator iter0 = iter; // just to prove why type aliases are helpful
-   auto iter1 = ++iter;                      // though auto usually works as well
-   auto iter2 = ++iter;
-   auto iter3 = ++iter;
-   CHECK_EQUAL(iter == map.end(), __LINE__);
-   iter = iter0;                       // iter->0
-   auto& iter_ref = ++iter;            // iter/iter_ref->1
-   CHECK_EQUAL(iter_ref == iter1, __LINE__);
-   auto iter_ref_copy = ++iter_ref;    // iter_ref_copy->2, iter/iter_ref->2
-   CHECK_EQUAL(iter_ref_copy == iter2, __LINE__);
-   CHECK_EQUAL(iter_ref == iter2, __LINE__);
+    // verify correct prefix/postfix behavior (this was very tedious)
+    HashMap<int, int>::iterator iter0 = iter; // just to prove why type aliases are helpful
+    auto iter1 = ++iter;                      // though auto usually works as well
+    auto iter2 = ++iter;
+    auto iter3 = ++iter;
+    CHECK_EQUAL(iter == map.end(), __LINE__);
+    iter = iter0;                       // iter->0
+    auto& iter_ref = ++iter;            // iter/iter_ref->1
+    CHECK_EQUAL(iter_ref == iter1, __LINE__);
+    auto iter_ref_copy = ++iter_ref;    // iter_ref_copy->2, iter/iter_ref->2
+    CHECK_EQUAL(iter_ref_copy == iter2, __LINE__);
+    CHECK_EQUAL(iter_ref == iter2, __LINE__);
 
-   auto iter_post = iter++;            // iter/iter_ref->3, iter_post->2
-   CHECK_EQUAL(iter_post == iter2, __LINE__);
-   CHECK_EQUAL(iter == iter3, __LINE__);
-   iter_ref = map.begin();             // iter/iter_ref->0
-   CHECK_EQUAL(iter == iter0, __LINE__);
+    auto iter_post = iter++;            // iter/iter_ref->3, iter_post->2
+    CHECK_EQUAL(iter_post == iter2, __LINE__);
+    CHECK_EQUAL(iter == iter3, __LINE__);
+    iter_ref = map.begin();             // iter/iter_ref->0
+    CHECK_EQUAL(iter == iter0, __LINE__);
 
-   // Big LOL - see if you can actually trace the ++++++ operator.
-   auto iter_chain_pre = ++++++iter;   // iter_chain_pre->3, iter/iter_ref->3
-   CHECK_EQUAL(iter == iter3, __LINE__);
-   CHECK_EQUAL(iter_chain_pre == iter3, __LINE__);
-   iter_ref = map.begin();             // iter/iter_ref->0
-   auto iter_chain_post = iter++++++;  // iter/iter_ref->1, iter_chain_post->0
-   CHECK_EQUAL(iter == iter1, __LINE__);
-   CHECK_EQUAL(iter_chain_post == iter0, __LINE__);
-   // presumably if you pass the above ones, you probably have it working
-   // so I'm not gonna think about what ++iter++++ would be
+    // Big LOL - see if you can actually trace the ++++++ operator.
+    auto iter_chain_pre = ++++++iter;   // iter_chain_pre->3, iter/iter_ref->3
+    CHECK_EQUAL(iter == iter3, __LINE__);
+    CHECK_EQUAL(iter_chain_pre == iter3, __LINE__);
+    iter_ref = map.begin();             // iter/iter_ref->0
+    auto iter_chain_post = iter++++++;  // iter/iter_ref->1, iter_chain_post->0
+    CHECK_EQUAL(iter == iter1, __LINE__);
+    CHECK_EQUAL(iter_chain_post == iter0, __LINE__);
+    // presumably if you pass the above ones, you probably have it working
+    // so I'm not gonna think about what ++iter++++ would be
 }
 #endif 
 
 #if RUN_TEST_6D
 void D_iterator_algorithm() {
-   HashMap<int, int> map;
-   std::map<int, int> answer;
+    /* Fully stresses your iterators by using an STL algorithm on them */
+    HashMap<int, int> map;
+    std::map<int, int> answer;
 
-   for (int i = -17; i < 10; ++i) {
-       map.insert({i, i*i});
-   }
+    for (int i = -17; i < 10; ++i) {
+        map.insert({i, i*i});
+    }
 
-   std::copy(map.begin(), map.end(), std::inserter(answer, answer.begin()));
-   CHECK_EQUAL(check_equal(map, answer), __LINE__);
-   answer.clear();
+    std::copy(map.begin(), map.end(), std::inserter(answer, answer.begin()));
+    CHECK_EQUAL(check_equal(map, answer), __LINE__);
+    answer.clear();
 
-   const auto& c_map = map;
-   std::copy(c_map.begin(), c_map.end(), std::inserter(answer, answer.begin()));
-   CHECK_EQUAL(check_equal(map, answer), __LINE__);
+    const auto& c_map = map;
+    std::copy(c_map.begin(), c_map.end(), std::inserter(answer, answer.begin()));
+    CHECK_EQUAL(check_equal(map, answer), __LINE__);
 }
 #endif
 
 #if RUN_TEST_6E
 void E_const_iterator() {
-   std::set<std::pair<int, int> > questions {
-       {1, 1}, {2, 2}, {3, 3}
-   };
+    /* Tests the const-correctness of your iterator class by asking for const_iterators */
+    std::set<std::pair<int, int> > questions {
+        {1, 1}, {2, 2}, {3, 3}
+    };
 
-   /* testing const_iterator (iterator to const std::pair) */
-   HashMap<int, int> map;
-   for (const auto& pair : questions) map.insert(pair);
-   const auto& const_map = map;
-   std::set<std::pair<int, int> > answers;
-   for (const auto& pair : const_map) CHECK_EQUAL(answers.insert(pair).second == true, __LINE__);
-   CHECK_EQUAL(questions == answers, __LINE__);
+    /* testing const_iterator (iterator to const std::pair) */
+    HashMap<int, int> map;
+    for (const auto& pair : questions) map.insert(pair);
+    const auto& const_map = map;
+    std::set<std::pair<int, int> > answers;
+    for (const auto& pair : const_map) CHECK_EQUAL(answers.insert(pair).second == true, __LINE__);
+    CHECK_EQUAL(questions == answers, __LINE__);
 
-   HashMap<int, int>::const_iterator iter = const_map.begin();
+    HashMap<int, int>::const_iterator iter = const_map.begin();
 
-   CHECK_EQUAL((*iter).first == (*iter).second, __LINE__);   // behavior of * operator
-   CHECK_EQUAL(iter->first == iter->second, __LINE__);       // behavior of -> operator
-   CHECK_EQUAL(iter == iter, __LINE__);                      // behavior of == operator
-   CHECK_EQUAL(!(iter != iter), __LINE__);                   // behavior of != operator
+    CHECK_EQUAL((*iter).first == (*iter).second, __LINE__);   // behavior of * operator
+    CHECK_EQUAL(iter->first == iter->second, __LINE__);       // behavior of -> operator
+    CHECK_EQUAL(iter == iter, __LINE__);                      // behavior of == operator
+    CHECK_EQUAL(!(iter != iter), __LINE__);                   // behavior of != operator
 
-   CHECK_EQUAL(iter->second == (*iter).second, __LINE__);
-   auto iter1 = ++iter;
-   auto iter2 = ++iter;
-   auto iter3 = iter++;
-   CHECK_EQUAL(iter == const_map.end(), __LINE__);
-   CHECK_EQUAL(iter3 == iter2, __LINE__);
-   CHECK_EQUAL(iter1 != iter2, __LINE__);
+    CHECK_EQUAL(iter->second == (*iter).second, __LINE__);
+    auto iter1 = ++iter;
+    auto iter2 = ++iter;
+    auto iter3 = iter++;
+    CHECK_EQUAL(iter == const_map.end(), __LINE__);
+    CHECK_EQUAL(iter3 == iter2, __LINE__);
+    CHECK_EQUAL(iter1 != iter2, __LINE__);
 
-   /* We could have the entire operator from 1C here, though that feels unnecessary */
+    /* We could have the entire operator from 1C here, though that feels unnecessary */
 }
 #endif
 
 #if RUN_TEST_6F
 void F_iterator_const_correctness() {
-   std::set<std::pair<int, int> > questions {
-       {1, 1}, {2, 2}, {3, 3}
-   };
+    /* Test the distinction between const iterator and const_iterator */
+    std::set<std::pair<int, int> > questions {
+        {1, 1}, {2, 2}, {3, 3}
+    };
 
-   HashMap<int, int> map;
-   for (const auto& pair : questions) map.insert(pair);
+    HashMap<int, int> map;
+    for (const auto& pair : questions) map.insert(pair);
 
-   /* test behavior of const iterator */
-   HashMap<int, int>::iterator iter = map.begin();
-   const HashMap<int, int>::iterator c_iter = map.begin();
-   const HashMap<int, int>::iterator& copy = iter;
-   const HashMap<int, int>::iterator& copy_next = ++iter;
+    /* test behavior of const iterator */
+    HashMap<int, int>::iterator iter = map.begin();
+    const HashMap<int, int>::iterator c_iter = map.begin();
+    const HashMap<int, int>::iterator& copy = iter;
+    const HashMap<int, int>::iterator& copy_next = ++iter;
 
-   CHECK_EQUAL(map.begin() == c_iter, __LINE__);
-   CHECK_EQUAL(copy == iter, __LINE__);
-   CHECK_EQUAL(copy_next == iter, __LINE__);
-   CHECK_EQUAL(c_iter != iter, __LINE__);
+    CHECK_EQUAL(map.begin() == c_iter, __LINE__);
+    CHECK_EQUAL(copy == iter, __LINE__);
+    CHECK_EQUAL(copy_next == iter, __LINE__);
+    CHECK_EQUAL(c_iter != iter, __LINE__);
 
-   // the iterator is const, but the stuff the iterator points to is not const.
-   (*c_iter).second = -1;                                   // behavior of * operator as an l-value
-   CHECK_EQUAL((*c_iter).second == -1, __LINE__);              // behavior of * operator as an r-value
-   c_iter->second = -2;                                     // behavior of -> operator as an l-value
-   CHECK_EQUAL(c_iter->second == -2, __LINE__);                // behavior of -> operator as an r-value
+    // the iterator is const, but the stuff the iterator points to is not const.
+    (*c_iter).second = -1;                                   // behavior of * operator as an l-value
+    CHECK_EQUAL((*c_iter).second == -1, __LINE__);              // behavior of * operator as an r-value
+    c_iter->second = -2;                                     // behavior of -> operator as an l-value
+    CHECK_EQUAL(c_iter->second == -2, __LINE__);                // behavior of -> operator as an r-value
 
-   // these should not compile:
-   // *iter = {0, 0};  // *iter is a std::pair<const K, M>, since K is const, = is deleted
-   // ++c_iter;        // ++ is non-const
+    // these should not compile:
+    // *iter = {0, 0};  // *iter is a std::pair<const K, M>, since K is const, = is deleted
+    // ++c_iter;        // ++ is non-const
 
-   CHECK_EQUAL(++++iter == map.end(), __LINE__);
+    CHECK_EQUAL(++++iter == map.end(), __LINE__);
 
-   /* test behavior of const const_iterator */
-   const auto& const_map = map;
-   HashMap<int, int>::const_iterator const_iter = const_map.begin();
-   const HashMap<int, int>::const_iterator c_const_iter_next = ++const_map.begin();
-   const HashMap<int, int>::const_iterator c_const_iter = const_map.begin();
+    /* test behavior of const const_iterator */
+    const auto& const_map = map;
+    HashMap<int, int>::const_iterator const_iter = const_map.begin();
+    const HashMap<int, int>::const_iterator c_const_iter_next = ++const_map.begin();
+    const HashMap<int, int>::const_iterator c_const_iter = const_map.begin();
 
-   // the key here is that these should compile.
-   ++const_iter;
-   CHECK_EQUAL((*c_const_iter).second == -2, __LINE__);
-   CHECK_EQUAL(c_const_iter->second == -2, __LINE__);
-   CHECK_EQUAL(const_iter == c_const_iter_next, __LINE__);
-   CHECK_EQUAL(c_const_iter == const_map.begin(), __LINE__);
+    // the key here is that these should compile.
+    ++const_iter;
+    CHECK_EQUAL((*c_const_iter).second == -2, __LINE__);
+    CHECK_EQUAL(c_const_iter->second == -2, __LINE__);
+    CHECK_EQUAL(const_iter == c_const_iter_next, __LINE__);
+    CHECK_EQUAL(c_const_iter == const_map.begin(), __LINE__);
 
-   // these should not compile:
-   // ++c_const_iter;
-   // c_const_iter->second = 2;
-   // const_iter->second = 2;
+    // these should not compile:
+    // ++c_const_iter;
+    // c_const_iter->second = 2;
+    // const_iter->second = 2;
 }
 #endif
 
 #if RUN_TEST_5A
 void A_initializer_list_constructor() {
-   std::map<std::string, int> answer {
-       {"A", 3}, {"B", 2}, {"C", 1}, {"A", -5}, {"B", 3}, {"A", 5}, {"C", 1}
-   };
+    /* Tests initializer_list via a simple example */
+    std::map<std::string, int> answer {
+        {"A", 3}, {"B", 2}, {"C", 1}, {"A", -5}, {"B", 3}, {"A", 5}, {"C", 1}
+    };
 
-   HashMap<std::string, int> map {
-       {"A", 3}, {"B", 2}, {"C", 1}, {"A", -5}, {"B", 3}, {"A", 5}, {"C", 1}
-   };
+    HashMap<std::string, int> map {
+        {"A", 3}, {"B", 2}, {"C", 1}, {"A", -5}, {"B", 3}, {"A", 5}, {"C", 1}
+    };
 
-   CHECK_EQUAL(check_equal(map, answer), __LINE__);
+    CHECK_EQUAL(check_equal(map, answer), __LINE__);
 
 }
 #endif
 
 #if RUN_TEST_5B
 void B_range_constructor() {
-   std::vector<std::pair<std::string, int>> values {
-       {"Ignore me", 100}, {"A", 3}, {"B", 2}, {"C", 1}, {"A", -5}, {"B", 3}, {"A", 5}, {"C", 1}
-   };
-   std::map<std::string, int> answer {values.begin()++, values.end()};
-   HashMap<std::string, int> map {values.begin()++, values.end()};
+    /* Simple test of the range constructor taking in two iterators to another collection */
+    std::vector<std::pair<std::string, int>> values {
+        {"Ignore me", 100}, {"A", 3}, {"B", 2}, {"C", 1}, {"A", -5}, {"B", 3}, {"A", 5}, {"C", 1}
+    };
+    std::map<std::string, int> answer {values.begin()++, values.end()};
+    HashMap<std::string, int> map {values.begin()++, values.end()};
 
-   CHECK_EQUAL(check_equal(map, answer), __LINE__);
+    CHECK_EQUAL(check_equal(map, answer), __LINE__);
 }
 #endif
 
@@ -849,7 +931,7 @@ void run_test_harness() {
     } else if (required_pass <= 12) {
         cout << "Halfway there! ";
     } else if (required_pass <= 15) {
-        cout << "Super close! "
+        cout << "Super close! ";
     } else {
         cout << "You passed all required tests! Great job!" << endl;
     }
