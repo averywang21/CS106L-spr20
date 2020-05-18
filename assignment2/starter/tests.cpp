@@ -566,7 +566,7 @@ void B_move_constructor_assignment() {
     move_assigned = std::move(map2);
     CHECK_EQUAL(map_copy == move_constructed, __LINE__);
     CHECK_EQUAL(map_copy == move_assigned, __LINE__);
-    map1 = move_constructed;                        // SHORT ANSWER QUESTION 2: ensure map1 still in a valid state.
+    map1 = move_constructed;                       
     CHECK_EQUAL(map1 == move_constructed, __LINE__);
 
 
