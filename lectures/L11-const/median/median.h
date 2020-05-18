@@ -31,7 +31,7 @@ namespace mycollection {
         std::vector<T> _elems;
         Compare _comp;  // we store the comparison function from the constructor to use later
     };
-
+    
     // recall the syntax for template class member functions
     // note: there's a slight quirk with lambdas, requiring use of member initializer lists (the thing after the colon)
     // we will talk about member initializer lists on Monday

@@ -35,6 +35,5 @@ int main() {
     hospital.insert({"Mike", 10});
     cout << "The median patient is: " << hospital.getMedian().name << " (expected Ali)" << endl;
 
-
     return 0;
 }

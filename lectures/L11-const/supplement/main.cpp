@@ -7,11 +7,11 @@ using std::cout;
 using std::endl;
 
 void print_information(const vector<int>& vec) {
-    // these two lines would not compile without today's lecture
+    cout << "these two lines would not compile without today's lecture" << endl;
     cout << vec.size() << endl;
     cout << vec.at(0) << endl;
     
-    // these two lines would not compile without supplemental material (const_iterator implementation)
+    cout << "these two lines would not compile without supplemental material (const_iterator implementation)" << endl;
     auto max = *std::max_element(vec.begin(), vec.end());
     cout << max << endl;
 }

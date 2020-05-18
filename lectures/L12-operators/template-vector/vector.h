@@ -49,7 +49,7 @@ namespace mycollection {
 		// Operators (as member functions)
 		vector<T>& operator+=(const T& element);
 		vector<T>& operator+=(const vector<T>& other);
-
+        
         // For Debugging Only
         void debug() const;
 
@@ -70,8 +70,6 @@ namespace mycollection {
     };
 }
 
-#include "vector.cpp"
-
 using mycollection::vector;
 
 // Operators (as non-member functions)
@@ -89,11 +87,13 @@ vector<T> operator+(const T& lhs, const vector<T>& rhs) {
 	return copy;
 }
 
-template <typename T>
-std::ostream& operator<<(std::ostream& out, const vector<T>& rhs) {
-	std::copy(rhs.begin(), rhs.end(), std::ostream_iterator<T>(out, "\n"));
-	out << std::endl;
+template <typename T_>
+std::ostream& operator<<(std::ostream& out, const vector<T_>& rhs) {
+	std::copy(rhs.begin(), rhs.end(), std::ostream_iterator<T_>(out, " "));
+    out << '\n';
 	return out;
 }
+
+#include "vector.cpp"
 
 #endif /* BOUNDED_VECTOR */
