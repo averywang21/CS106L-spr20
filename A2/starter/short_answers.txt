@@ -1,0 +1,91 @@
+Milestone 4: Answer Short Answer Questions
+Name(s): [insert your names here]
+
+Answer the following questions in this file.
+These questions do not require long answers or even complete sentences.
+
+Please limit each line of this text file to 80 characters wide
+use multiple lines for each question, if necessary.
+
+
+Example:
+Q0. Consider the test case B_move_constructor_assignment. You should see a 
+    line with std::move(map1). Then, in the next line, we move from map1 to 
+    create move_constructed. Why is this valid?
+
+A0. std::move marks map eligible to be moved, but does not actually move. 
+    A function taking an r-value (eg. move constructor) does the moving. 
+    map1 is not passed to such a function, so we can still move from map1.
+--------------------------------------------------------------------------------
+Q1. In the clear() function, the for-each loop contains an auto&. Explain what
+    the deduced type of that auto is and why the ampersand is necessary.
+
+A1.
+--------------------------------------------------------------------------------
+Q2. Take a look at the code inside the test F_custom_hash_function() of the 
+    file tests.cpp. What is the purpose of decltype, and is there a way to write
+    that line of code without using decltype? Explain.
+
+A2.
+--------------------------------------------------------------------------------
+Q3. STL containers store elements of type value_type, and for your HashMap this
+    value_type is a std::pair<const K, M>. What would be the problem in the
+    HashMap class if value_type were instead std::pair<K, M>?
+
+A3.
+--------------------------------------------------------------------------------
+Q4. Take a look at the function check_map_equal() inside tests.cpp. You might 
+    notice that in the test cases, we use check_map_equal() to compare a 
+    HashMap and a std::map, but never to compare two HashMaps 
+    (we instead use operator==). Why can't we use check_map_equal() 
+    to compare two HashMaps? 
+
+A4.
+--------------------------------------------------------------------------------
+Q5. Why did you implement both a const and non-const version of at(), but only a
+    non-const version of operator[]? (unlike in Vector where operator[] also had
+    a const version)
+
+A5.
+--------------------------------------------------------------------------------
+Q6. Out of all the operators you overloaded, operator<< is the most interesting.
+    - Did you implement operator<< as a member, a friend, or neither? Why?
+    - We had you overload operator<< as an exercise in operator overloading,
+    but none of the STL collections have operator<< overloaded.
+    Why do you think that is?
+
+A6.
+--------------------------------------------------------------------------------
+Q7. If you had to implement an iterator class for your HashMap, what would
+    its iterator category be and why?
+
+A7.
+--------------------------------------------------------------------------------
+Q8. Consider a class which has three members - a size_t, a function object, and a
+    std::vector<int>. In this case the rule of zero applies and you should not
+    write your own special member functions. Why does the rule of zero apply?
+    In your HashMap class the rule of five applies - the starter code had the
+    destructor, and you implemented the other four. Why does your HashMap class
+    follow the rule of five and not the rule of zero?
+
+A8.
+--------------------------------------------------------------------------------
+Q9. In your move constructor or move assignment operator, why did you have to
+    std::move each member, even though the parameter (named rhs or other) is
+    already an r-value reference?
+
+A9.
+--------------------------------------------------------------------------------
+Q10. Is your HashMap class RAII-compliant? If so, explain. If not, give a 
+    specific instance in which this could be a problem, and explain how you 
+    would make your class RAII-compliant?
+
+A10.
+--------------------------------------------------------------------------------
+Feedback for this assignment:
+1. Did you find the assignment to be a good learning experience?
+2. How much time did you spend on the assignment?
+3. Was the starter code and documentation easy to read?
+4. Any other feedback about the assignment?
+
+Answer here:
