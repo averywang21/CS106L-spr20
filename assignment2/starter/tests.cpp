@@ -303,7 +303,7 @@ void C_rehash_correctness_by_time() {
     using K = int;
     using V = int;
     float tolerance = 0.5;      // makes me feel like an engineer, probably using the term wrong
-    int trials = 10;           // increase if necessary, Central Limit Theorem!
+    int trials = 1000;           // increase if necessary, Central Limit Theorem!
 
     // in case std::hash<K> is different on your compiler.
     auto identity = [](const K& key) { return key; };
