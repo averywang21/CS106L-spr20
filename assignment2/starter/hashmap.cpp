@@ -188,15 +188,15 @@ void HashMap<K, M, H>::debug() const {
 template <typename K, typename M, typename H>
 bool HashMap<K, M, H>::erase(const K& key) {
     auto [prev, node_to_erase] = find_node(key);
-    /* Milestone 1: begin student code */
-
-        // Hint: be careful if the node you are removing
-        // is the front or back of a bucket's linked list.
-        // The code inside insert might be helpful to look at.
-        (void) prev, (void) node_to_erase; // remove this line after you start implementing
-    /* end student code */
-
-    return false; // only here so it compiles, feel free to remove
+    if (node_to_erase == nullptr) {
+        return false;
+    } else {
+        size_t index = _hash_function(key) % bucket_count();
+        (prev ? prev->next : _buckets_array[index]) = node_to_erase->next;
+        delete node_to_erase;
+        --_size;
+        return true;
+    }
 }
 
 template <typename K, typename M, typename H>

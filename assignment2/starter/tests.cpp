@@ -36,7 +36,7 @@ template <typename Map1, typename Map2> bool check_equal(Map1& map, Map2& answer
 void CHECK_EQUAL(bool condition, int id) {
     if (!condition) {
         std::ostringstream oss;
-        oss << "CHECK_EQUAL assertion incorrect at line number " << id << " in file tests.cpp." << id;
+        oss << "CHECK_EQUAL assertion failure at line number " << id << " in file tests.cpp";
         throw oss.str();
     }
 }
@@ -194,8 +194,8 @@ void F_custom_hash_function() {
        CHECK_EQUAL(check_equal(map, answer), __LINE__);
     }
 }
-#if RUN_TEST_1A
-void A_erase() {
+
+void G_erase() {
     /*
     * Tests erase operation in combination with basic operations.
     */
@@ -232,10 +232,9 @@ void A_erase() {
         CHECK_EQUAL(check_equal(map, answer), __LINE__);
     }
 }
-#endif
 
-#if RUN_TEST_1B
-void B_rehash_basic() {
+#if RUN_TEST_1A
+void A_rehash_basic() {
     /*
     * Verifies external correctness after call to M1_Review.
     * Note that this does not actually verify if the linked lists are correct,
@@ -277,8 +276,8 @@ void B_rehash_basic() {
 }
 #endif
 
-#if RUN_TEST_1C
-void C_rehash_correctness_by_time() {
+#if RUN_TEST_1B
+void B_rehash_correctness_by_time() {
     /*
     * This test tries to check if you hashed elements to the buckets correctly
     * by adding a specific number of elements, and measuring the time it takes
@@ -924,7 +923,7 @@ void run_test_harness() {
     cout << endl << "-----Test Harness Summary-----" << endl;
     cout << "Required tests: " << required_pass << "/16 (excluding short answers)" << endl;
     cout << "Optional tests: " << bonus_pass << "/8" << endl;
-    if (required_pass <= 6) {
+    if (required_pass <= 7) {
         cout << "Still getting started! ";
     } else if (required_pass <= 9) {
         cout << "You are making progress! Keep going! ";
@@ -941,8 +940,8 @@ void run_test_harness() {
     }
     if (bonus_pass == 8) {
         cout << "It's students like you who are so interested in C++ that you go way above and beyond " << endl;
-        cout << "the class that make teaching such a joy. It's our very last quarter teaching, and we " << endl;
-        cout << "just want to say in this hidden message, thank you for this amazing quarter." << endl; 
+        cout << "the assignment that make teaching such a joy. It's our very last quarter teaching, and we " << endl;
+        cout << "just want to say in this hidden message, thank you for being awesome." << endl; 
     } else if (bonus_pass >= 4) {
         cout << "You even succeeded in some extensions! That's awesome." << endl;
     } else if (bonus_pass > 0) {
@@ -958,27 +957,22 @@ int run_starter_code_tests() {
     passed += run_test(D_at_test, "D_at_test");
     passed += run_test(E_custom_bucket_count, "E_custom_bucket_count");
     passed += run_test(F_custom_hash_function, "F_custom_hash_function");
+    passed += run_test(G_erase, "G_erase");
     return passed;
 }
 
 int run_milestone1_tests() {
     int passed = 0;
     #if RUN_TEST_1A
-    passed += run_test(A_erase, "A_erase");
+    passed += run_test(A_rehash_basic, "A_rehash_basic");
     #else
-    skip_test("A_erase");
+    skip_test("A_rehash_basic");
     #endif
 
     #if RUN_TEST_1B
-    passed += run_test(B_rehash_basic, "B_rehash_basic");
+    passed += run_test(B_rehash_correctness_by_time, "B_rehash_correctness_by_time");
     #else
-    skip_test("B_rehash_basic");
-    #endif
-
-    #if RUN_TEST_1C
-    passed += run_test(C_rehash_correctness_by_time, "C_rehash_correctness_by_time");
-    #else
-    skip_test("C_rehash_correctness_by_time");
+    skip_test("B_rehash_correctness_by_time");
     #endif
     return passed;
 }
