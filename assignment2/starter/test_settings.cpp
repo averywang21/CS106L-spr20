@@ -7,7 +7,7 @@
 
 // Turn on the test harness
 // 0 = run student_main, 1 = run test harness
-#define RUN_TEST_HARNESS 1
+#define RUN_TEST_HARNESS 0
 
 /*
     Note that milestone 2 and 3 tests won't compile until their respective functions
