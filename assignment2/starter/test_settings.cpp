@@ -18,7 +18,7 @@
     2C - equality operators (== and !=)
     2D - const correctness (compiler errors indicate your functions aren't const correct)
     3A - copy constructor and assignment
-    3B - move constructor and assignment (only tests correctness, will pass if you only implemented copy)
+    3B - move constructor and assignment (only tests correctness, will pass even if you only implemented copy)
     3C - move constructor + assignment   (tests efficiency, will not pass if you only implemented copy)
 */
 
