@@ -26,3 +26,11 @@ L8-functions
 L9-summary
 
 L10-template-classes
+
+L11-const
+
+L12-operators
+
+L13-special-member-functions
+
+L14-move-semantics
