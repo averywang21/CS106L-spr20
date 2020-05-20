@@ -130,6 +130,26 @@ HashMap<K, M, H>::insert(const value_type& value) {
     return {&(_buckets_array[index]->value), true};
 }
 
+/*
+ * We need to call find_node and get the previous and node_to_erase
+ * so that we can rewire previous's next pointer.
+ * 
+ * It's also important to free the memory of the node!
+ */
+template <typename K, typename M, typename H>
+bool HashMap<K, M, H>::erase(const K& key) {
+    auto [prev, node_to_erase] = find_node(key);
+    if (node_to_erase == nullptr) {
+        return false;
+    } else {
+        size_t index = _hash_function(key) % bucket_count();
+        (prev ? prev->next : _buckets_array[index]) = node_to_erase->next;
+        delete node_to_erase;
+        --_size;
+        return true;
+    }
+}
+
 template <typename K, typename M, typename H>
 M& HashMap<K, M, H>::at(const K& key) {
     auto [prev, node_found] = find_node(key);
@@ -185,19 +205,7 @@ void HashMap<K, M, H>::debug() const {
     std::cout << std::setw(30) << std::setfill('-') << '\n';
 }
 
-template <typename K, typename M, typename H>
-bool HashMap<K, M, H>::erase(const K& key) {
-    auto [prev, node_to_erase] = find_node(key);
-    if (node_to_erase == nullptr) {
-        return false;
-    } else {
-        size_t index = _hash_function(key) % bucket_count();
-        (prev ? prev->next : _buckets_array[index]) = node_to_erase->next;
-        delete node_to_erase;
-        --_size;
-        return true;
-    }
-}
+
 
 template <typename K, typename M, typename H>
 void HashMap<K, M, H>::rehash(size_t new_bucket_count) {
@@ -211,7 +219,7 @@ void HashMap<K, M, H>::rehash(size_t new_bucket_count) {
         // Hint: you should NOT call insert, and you should not call
         // new or delete in this function. You must reuse existing nodes.
         (void) new_buckets_array; // remove this line after you start implementing
-        
+
     /* end student code */
 }
 

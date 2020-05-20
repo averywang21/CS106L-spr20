@@ -214,7 +214,7 @@ public:
     *                      false if the element already existed.
     *
     * Note: in general it is a poor idea to return raw pointers to the internal nodes.
-    * It is much better to return an iterator instead, which you can optionally do in milestone 8.
+    * It is much better to return an iterator instead, which you can optionally do in milestone 6.
     *
     * Usage:
     *      HashMap<int, std::string> map;

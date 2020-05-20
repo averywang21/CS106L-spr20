@@ -272,14 +272,16 @@ void A_rehash_basic() {
            answer.insert({i, i});
        }
     }
+    bool exception_correct = false;
     try {
         map.rehash(0);
     } catch (const std::out_of_range& e) {
         // Great! You threw the correct exception.
-    } catch (...) {
-        // You didn't throw the correct exception here!
-        VERIFY_TRUE(false, __LINE__);
+        exception_correct = true;
+    } catch (const std::exception& e) {
+        // you threw the wrong exception!
     }
+    VERIFY_TRUE(exception_correct, __LINE__);
 }
 #endif
 
