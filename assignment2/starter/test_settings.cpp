@@ -34,12 +34,12 @@
 #define RUN_TEST_3C 0
 
 /*
-These are optional tests, won't compile unless implemented
-iterators are tricky to get compiling - reach out if you have questions
-5A - initializer_list constructor for HashMap
-5B - range constructor for HashMap
-6A-D - complete HashMapIterator class, as well as correct changes in HashMap class
-6E-F - const correct HashMapIterator class
+    These are optional tests, won't compile unless implemented
+    iterators are tricky to get compiling - reach out if you have questions
+    5A - initializer_list constructor for HashMap
+    5B - range constructor for HashMap
+    6A-D - complete HashMapIterator class, as well as correct changes in HashMap class
+    6E-F - const correct HashMapIterator class
 */
 #define RUN_TEST_5A 0
 #define RUN_TEST_5B 0
