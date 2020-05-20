@@ -211,6 +211,7 @@ void HashMap<K, M, H>::rehash(size_t new_bucket_count) {
         // Hint: you should NOT call insert, and you should not call
         // new or delete in this function. You must reuse existing nodes.
         (void) new_buckets_array; // remove this line after you start implementing
+        
     /* end student code */
 }
 

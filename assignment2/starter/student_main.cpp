@@ -1,3 +1,8 @@
+/*
+ * Student Main Function
+ * 
+ * DO NOT SUBMIT THIS FILE (unless you wrote a cool extension using main)
+ */
 #include "hashmap.h"
 // add necessary includes here
 
