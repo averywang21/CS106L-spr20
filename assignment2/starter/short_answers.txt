@@ -51,8 +51,8 @@ A5.
 Q6. Out of all the operators you overloaded, operator<< is the most interesting.
     - Did you implement operator<< as a member, a friend, or neither? Why?
     - We had you overload operator<< as an exercise in operator overloading,
-    but none of the STL collections have operator<< overloaded.
-    Why do you think that is?
+    but but none of the STL collections have  operator<< overloaded. 
+    Why do you think the STL designers made this decision?
 
 A6.
 --------------------------------------------------------------------------------
@@ -61,12 +61,15 @@ Q7. If you had to implement an iterator class for your HashMap, what would
 
 A7.
 --------------------------------------------------------------------------------
-Q8. Consider a class which has three members - a size_t, a function object, and a
-    std::vector<int>. In this case the rule of zero applies and you should not
-    write your own special member functions. Why does the rule of zero apply?
-    In your HashMap class the rule of five applies - the starter code had the
-    destructor, and you implemented the other four. Why does your HashMap class
-    follow the rule of five and not the rule of zero?
+Q8. Consider a class MyClass which has three private members - a size_t, 
+    a function object, and a std::vector<int>. In this case the rule of zero 
+    applies and you should not write your own special member functions. In 
+    your HashMap class the rule of five applies - the starter code had the 
+    destructor, and you implemented the other four special member functions. 
+    - Why does the rule of zero apply to MyClass?
+    - Why does your HashMap class follow the rule of five and not the rule 
+      of zero, if your HashMap private members are also a size_t, 
+      a function object, and a std::vector?
 
 A8.
 --------------------------------------------------------------------------------
@@ -78,7 +81,7 @@ A9.
 --------------------------------------------------------------------------------
 Q10. Is your HashMap class RAII-compliant? If so, explain. If not, give a 
     specific instance in which this could be a problem, and explain how you 
-    would make your class RAII-compliant?
+    would make your class RAII-compliant.
 
 A10.
 --------------------------------------------------------------------------------
