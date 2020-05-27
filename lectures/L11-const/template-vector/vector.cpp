@@ -18,7 +18,7 @@ vector<T>::~vector() {
 // Element Access
 template <typename T>
 typename vector<T>::value_type& vector<T>::at(size_t index) {
-    if (index < 0 || index > _size) 
+    if (index < 0 || index >= _size) 
         throw std::out_of_range("Out of bounds!");
     return _elems[index];
 }
