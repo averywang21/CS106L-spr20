@@ -34,3 +34,5 @@ L12-operators
 L13-special-member-functions
 
 L14-move-semantics
+
+L15-raii
