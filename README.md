@@ -36,3 +36,7 @@ L13-special-member-functions
 L14-move-semantics
 
 L15-raii
+
+L16-multithreading
+
+L17-final/functors
