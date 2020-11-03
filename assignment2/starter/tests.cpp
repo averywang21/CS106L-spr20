@@ -16,12 +16,11 @@ using namespace std;
 #include <sstream>
 #include <set>
 #include <iomanip>
-#include <chrono>       // for chrono timers
 
 // ----------------------------------------------------------------------------------------------
 // Global Constants and Type Alises (DO NOT EDIT)
 using clock_type = std::chrono::high_resolution_clock;
-using ms = std::chrono::nanoseconds;
+using ns = std::chrono::nanoseconds;
 const std::vector<std::pair<std::string, int> > vec {
     {"A", 3}, {"B", 2}, {"C", 1}, {"A", -5}, {"B", 3}, {"A", 5}, {"C", 1}
 };
@@ -331,7 +330,7 @@ void B_rehash_correctness_by_time() {
         auto start = clock_type::now();
         for (int j = 0; j < trials; ++j) map.contains(i);
         auto end = clock_type::now();
-        auto elapsed = std::chrono::duration_cast<ms>(end - start);
+        auto elapsed = std::chrono::duration_cast<ns>(end - start);
         bucket_times_6.insert({i, elapsed.count()});
     }
 
@@ -341,7 +340,7 @@ void B_rehash_correctness_by_time() {
         auto start = clock_type::now();
         for (int j = 0; j < trials; ++j) map.contains(i);
         auto end = clock_type::now();
-        auto elapsed = std::chrono::duration_cast<ms>(end - start);
+        auto elapsed = std::chrono::duration_cast<ns>(end - start);
         bucket_times_3.insert({i, elapsed.count()});
     }
 
@@ -351,7 +350,7 @@ void B_rehash_correctness_by_time() {
         auto start = clock_type::now();
         for (int j = 0; j < trials; ++j) map.contains(i);
         auto end = clock_type::now();
-        auto elapsed = std::chrono::duration_cast<ms>(end - start);
+        auto elapsed = std::chrono::duration_cast<ns>(end - start);
         bucket_times_2.insert({i, elapsed.count()});
     }
 
@@ -478,8 +477,6 @@ void C_equality_operator() {
     for (int i = 0; i < 99; ++i) {
         map1.at(i) = -i*i;
         map2.at(99-i) = -(99-i)*(99-i);
-        map1.rehash(i+1);
-        map2.rehash(150+i);
         VERIFY_TRUE(map1 != map2 && map2 != map1 && map1 == map1 && map2 == map2, __LINE__);
     }
     map1.at(99) = -99*99;
@@ -490,14 +487,10 @@ void C_equality_operator() {
     for (int i = 0; i < 99; ++i) {
         map1.erase(i);
         map2.erase(99-i);
-        map1.rehash(i+150);
-        map2.rehash(1+i);
         VERIFY_TRUE(map1 != map2 && map2 != map1 && map1 == map1 && map2 == map2, __LINE__);
     }
     map1.erase(99);
     map2.erase(0);
-    map1.rehash(1);
-    map2.rehash(1);
     VERIFY_TRUE(map1 == map2 && map2 == map1 && map1 == map1 && map2 == map2, __LINE__);
 
     // consistency after a call to clear
@@ -554,8 +547,6 @@ void D_const_correctness() {
     // Check const correctness of == and != operator 
     map1.erase("A");
     map2.erase("A");
-    map1.rehash(map1.bucket_count() * 2);
-    map2.rehash(map2.bucket_count() * 2);
     VERIFY_TRUE(map1 == map2 && map2 == map1 && map1 == map1 && map2 == map2, __LINE__);
     VERIFY_TRUE(c_ref_map1 == map2 && map2 == c_ref_map1 && c_ref_map1 == c_ref_map1, __LINE__);
     VERIFY_TRUE(c_ref_map2 == map1 && map1 == c_ref_map2 && c_ref_map2 == c_ref_map2, __LINE__);
@@ -685,18 +676,37 @@ void C_move_time() {
     HashMap<int, int, decltype(zero)> map_copy(2, zero);
     std::map<int, int> answer;
 
-    for (size_t i = 0; i < 1000; ++i) {
+    for (size_t i = 0; i < 2000; ++i) {
         map1.insert({i, i*i});
         map2.insert({i, i*i});
         answer.insert({i, i*i});
     }
+
+    // call each of the four constructors/assignment, measure their times
+    ns copy_ctor, move_ctor, copy_assign, move_assign;
+    {
+        auto start = clock_type::now();
+        HashMap<int, int, decltype(zero)> copy_constructed = map1;
+        auto end = clock_type::now();
+        copy_ctor = std::chrono::duration_cast<ns>(end - start);
+        VERIFY_TRUE(check_map_equal(copy_constructed,answer), __LINE__);
+    }
+
     {
         auto start = clock_type::now();
         HashMap<int, int, decltype(zero)> move_constructed = std::move(map1);
         auto end = clock_type::now();
-        auto elapsed = std::chrono::duration_cast<ms>(end - start);
+        move_ctor = std::chrono::duration_cast<ns>(end - start);
         VERIFY_TRUE(check_map_equal(move_constructed,answer), __LINE__);
-        VERIFY_TRUE(elapsed.count() < 10000, __LINE__);
+    }
+
+    {
+        auto start = clock_type::now();
+        HashMap<int, int, decltype(zero)> copy_assigned;
+        copy_assigned = map2;
+        auto end = clock_type::now();
+        copy_assign = std::chrono::duration_cast<ns>(end - start);
+        VERIFY_TRUE(check_map_equal(copy_assigned,answer), __LINE__);
     }
 
     {
@@ -704,10 +714,17 @@ void C_move_time() {
         HashMap<int, int, decltype(zero)> move_assigned;
         move_assigned = std::move(map2);
         auto end = clock_type::now();
-        auto elapsed = std::chrono::duration_cast<ms>(end - start);
+        move_assign = std::chrono::duration_cast<ns>(end - start);
         VERIFY_TRUE(check_map_equal(move_assigned,answer), __LINE__);
-        VERIFY_TRUE(elapsed.count() < 10000, __LINE__);
     }
+    std::cout << "HashMap with 2000 elements (ns)" << std::endl;
+    std::cout << "Copy ctor: " << copy_ctor.count() << setw(15) << "Move ctor: " << move_ctor.count() << std::endl;
+    std::cout << "Copy assign: " << copy_assign.count() << setw(15) << "Move assign: " << move_assign.count() << std::endl;
+
+    // verify that move operations are much faster than their copy counterparts
+    // you should be able to easily beat this benchmark
+    VERIFY_TRUE(100*move_ctor.count() < copy_ctor.count(), __LINE__);
+    VERIFY_TRUE(100*move_assign.count() < copy_assign.count(), __LINE__);
 }
 #endif
 
@@ -1003,7 +1020,7 @@ void run_test_harness() {
     int bonus_pass = 0;
     cout << "----- Starter Code Tests (Provided) -----" << endl;
     required_pass += run_starter_code_tests();
-    cout << endl << "----- Milestone 1 Tests (Required) -----" << endl;
+    cout << endl << "----- Milestone 1 Tests (Optional) -----" << endl;
     required_pass += run_milestone1_tests();
     cout << endl << "----- Milestone 2 Tests (Required) -----" << endl;
     required_pass += run_milestone2_tests();
@@ -1016,31 +1033,25 @@ void run_test_harness() {
     cout << endl << "----- Milestone 6 Tests (Optional) -----" << endl;
     bonus_pass +=  run_milestone6_tests();
     cout << endl << "----- Test Harness Summary -----" << endl;
-    cout << "Required tests: " << required_pass << "/16 (excluding short answers)" << endl;
-    cout << "Optional tests: " << bonus_pass << "/8" << endl;
+    cout << "Required tests: " << required_pass << "/14 (excluding short answers)" << endl;
+    cout << "Optional tests: " << bonus_pass << "/10" << endl << endl;
     if (required_pass <= 7) {
         cout << "Still getting started! " << endl;
     } else if (required_pass <= 9) {
         cout << "You are making progress! Keep going! " << endl;
-    } else if (required_pass <= 12) {
+    } else if (required_pass <= 11) {
         cout << "Halfway there! " << endl;
-    } else if (required_pass <= 15) {
+    } else if (required_pass <= 13) {
         cout << "Super close! " << endl;
     } else {
         cout << "You passed all required tests! Great job!" << endl;
     }
-    if (required_pass < 16) {
+    if (required_pass < 14) {
         cout << "Some tests were failed or skipped. " << endl;
         cout << "If stuck, try adding a map.debug() call before a VERIFY_TRUE." << endl;
     }
-    if (bonus_pass == 8) {
-        cout << "It's students like you who are so interested in C++ that you go way above and beyond " << endl;
-        cout << "the assignment that make teaching such a joy. It's our very last quarter teaching, and we " << endl;
-        cout << "just want to say in this hidden message, thank you for being awesome." << endl; 
-    } else if (bonus_pass >= 4) {
-        cout << "You even succeeded in some extensions! That's awesome." << endl;
-    } else if (bonus_pass > 0) {
-        cout << "Wow! You've clearly invested a lot of time in extensions. You're amazing" << endl;
+    if (bonus_pass > 0) {
+        cout << "Great job completing the extensions! " << endl;
     }
     cout << endl << "----- End of Test Harness -----" << endl;
 }
