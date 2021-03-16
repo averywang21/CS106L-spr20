@@ -1,0 +1,30 @@
+Assignment 2: STL HashMap (short answer questions)
+Names:
+
+1.
+
+2.
+
+3.
+
+4.
+
+5.
+
+6.
+
+7.
+
+8.
+
+9.
+
+10.
+
+11.
+
+12.
+
+13.
+
+14. Copy the three benchmark tables here.
