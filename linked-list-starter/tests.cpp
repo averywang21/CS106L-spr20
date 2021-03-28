@@ -3,16 +3,15 @@
 #include <iomanip>
 #include <set>
 
-#define NUGGET_1 0
-#define NUGGET_2 0
-#define NUGGET_3 0
-#define NUGGET_4 0
-#define NUGGET_5 0
-#define NUGGET_6 0
-#define NUGGET_7 0
-#define NUGGET_8 0
-#define NUGGET_9 0
-#define NUGGET_10 0
+#define NUGGET_1 1 // starter code fails
+#define NUGGET_2 0 // starter code crashes
+#define NUGGET_3 1 // starter code fails
+#define NUGGET_4 0 // starter code does not compile
+#define NUGGET_5 1 // starter code fails 1 of 2
+#define NUGGET_6 1 // starter code passes
+#define NUGGET_7 0 // starter code crashes
+#define NUGGET_8 0 // starter code crashes
+#define NUGGET_9 1 // starter code fails
 
 // Runtime assertion check
 // Equivalent to CHECK_TRUE
@@ -136,17 +135,21 @@ void erase_simple() {
 #if NUGGET_2
 void remove_if_simple() {
     List<int> list;
-    list.push_back(7); // list = {7}
-    list.push_back(3); // list = {7, 3}
-    list.push_back(10); // list = {7, 3, 10}
-    list.push_back(-1); // list = {7, 3, 10, -1}
-    list.push_back(6); // list = {7, 3, 10, -1, 6}
+    list.push_back(2);
+    list.push_back(3);
+    list.push_back(5);
+    list.push_back(1);
+    list.push_back(8);
+    list.push_back(9);
+    list.push_back(-3);
+    list.push_back(0);
+    list.push_back(4);
 
     auto less_than_5 = [](const auto& elem) {
         return elem < 5;
     };
-    list.remove_if(less_than_5); // list = {7, 10, 6}
-    CHECK_TRUE(list.is_same({7, 10, 6}), __LINE__);
+    list.remove_if(less_than_5); 
+    CHECK_TRUE(list.is_same({5, 8, 9}), __LINE__);
 }
 #endif
 
@@ -182,16 +185,13 @@ void comparison_simple() {
 
 void comparison_list_in_set() {
     std::set<List<int>> set_of_lists;
-    List<int> list;
-    list.push_back(1);
-    list.push_back(2);
-    set_of_lists.insert(list);
-    CHECK_TRUE(set_of_lists.size() == 1, __LINE__);
-    CHECK_TRUE(set_of_lists.begin()->size() == 2, __LINE__);
+    CHECK_TRUE(set_of_lists.size() == 0, __LINE__);
+    // note: we can't test insert right now because we need to implement a copy construct
+    // to be able to insert into a set.
 }
 #endif
 
-#if NUGGET_4
+#if NUGGET_5
 void stream_insert_simple() {
     List<int> list;
     list.push_back(1); // list1 = {1}
@@ -213,10 +213,11 @@ void stream_insert_const_correct() {
     // TODO: write a test case using List<T> such that
     //      - it compiles correctly when the const is added
     //      - it does not compile when the const is missing
+    CHECK_TRUE(false, __LINE__);
 }
 #endif
 
-#if NUGGET_5
+#if NUGGET_6
 void indexing_simple() {
     List<int> list;
     std::vector<int> vector;
@@ -237,7 +238,7 @@ void indexing_simple() {
 }
 #endif
 
-#if NUGGET_6
+#if NUGGET_7
 void copy_constructor_simple() {
     List<int> list;
     list.push_back(1); // list = {1}
@@ -251,7 +252,7 @@ void copy_constructor_simple() {
 }
 #endif
 
-#if NUGGET_7
+#if NUGGET_8
 void move_constructor_simple() {
     List<int> list;
     list.push_back(1); // list = {1}
@@ -264,14 +265,14 @@ void move_constructor_simple() {
 }
 #endif
 
-#if NUGGET_8
+#if NUGGET_9
 void copy_assignment_simple() {
     List<int> list;
     list.push_back(1); // list = {1}
     list.push_back(2); // list = {1, 2}
     List<int> copy;
     copy = list; // copy = list = {1, 2}
-    CHECK_TRUE(list.is_same({1, 2}), __LINE__); // 
+    CHECK_TRUE(list.is_same({1, 2}), __LINE__); 
     CHECK_TRUE(copy.is_same({1, 2}), __LINE__);
     list.push_back(4);
     CHECK_TRUE(list.is_same({1, 2, 4}), __LINE__);
@@ -306,7 +307,7 @@ int run_test(const T& test, const std::string& test_name) {
         return 1;
     } catch (const CheckTrueAssertionFailure& e)  {
         std::cout << "Test "  << std::setw(30) << std::left << test_name << std::right
-             << " FAIL: VERIFY_TRUE assertion failure at line number " << e.line
+             << " FAIL: CHECK_TRUE assertion failure at line number " << e.line
              << " in file tests.cpp" << std::endl;
     } catch (const std::exception& e) {
         std::cout << "Test "  << std::setw(30) << std::left << test_name << std::right
@@ -378,15 +379,15 @@ int run_public_tests() {
         skip_test("I_copy_ctor_simple");
     #endif
     #if NUGGET_8
-        pass += run_test(copy_assignment_simple, "J_copy_assign_simple");
+        pass += run_test(move_constructor_simple, "J_move_ctor_simple");
     #else
-        skip_test("J_copy_assign_simple");
+        skip_test("J_move_ctor_simple");  
     #endif
     #if NUGGET_9
-        pass += run_test(move_constructor_simple, "K_move_ctor_simple");
+        pass += run_test(copy_assignment_simple, "K_copy_assign_simple");
         pass += run_test(move_assignment_simple, "L_move_assign_simple");
     #else
-        skip_test("K_move_ctor_simple");
+        skip_test("K_copy_assign_simple");
         skip_test("L_move_assign_simple");
     #endif
     return pass;

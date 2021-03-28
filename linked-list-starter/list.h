@@ -223,6 +223,7 @@ typename List<T>::iterator List<T>::erase(iterator pos) {
     * Nugget #1
     * TODO: finish the implementation of the erase function (~8 lines).
     */
+   (void) ptr_node;
 
     return pos_next;
 }
@@ -237,9 +238,9 @@ size_t List<T>::remove_if(UniPred pred) {
     size_t count = 0;
     for (auto iter = begin(); iter != end(); ++iter) {
         if (pred(*iter)) {
-            erase(iter);
+            iter = erase(iter);
             ++count;
-        }
+        } 
     }
     return count;
 }
@@ -253,10 +254,6 @@ size_t List<T>::remove_if(UniPred pred) {
  */
 template <typename T>
 bool operator==(const List<T>& lhs, const List<T>& rhs) {
-    /* 
-     * Nugget #3
-     * TODO: implement this function (~1 line)
-     */
     (void) lhs, (void) rhs;
     return true;
 }
