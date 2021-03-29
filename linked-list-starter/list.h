@@ -127,7 +127,7 @@ public:
     List& operator=(const List<T>& rhs);
 
     /*
-     * Copy assignment operator
+     * Move assignment operator
      * 
      * Replaces *this with a List<T> that steals and re-uses the nodes in rhs.
      * Runtime: O(1)
@@ -135,8 +135,13 @@ public:
     List& operator=(List<T>&& rhs);
 
 private:
+    /* Private declaration of a node of the linked list.
+     * Very similar to what you saw in CS 106B, except
+     * The data is an arbitrary template type, and
+     * for convenience we also have a constructor.
+     */
     struct node {
-        T _data;
+        T _data; /
         node* _prev;
         node* _next;
 
@@ -144,8 +149,13 @@ private:
             _data{data}, _prev{prev}, _next{next} {}
     };
 
+    /* Pointer to front of linked list (as you saw in CS 106B) */
     node* _front;
+
+    /* Pointer to back of the linked list */
     node* _back;
+
+    /* Number of elements, so we can implement size() in O(1) time */
     size_t _size;
 };
 
@@ -218,12 +228,13 @@ typename List<T>::iterator List<T>::erase(iterator pos) {
     iterator pos_next = pos; 
     ++pos_next;                 // the iterator right after pos, which we will return
     node* ptr_node = pos._node; // pointer to node you are erasing
+    // you can use ptr_node->_data, ptr_node->_prev, and ptr_node->_next
 
     /*
     * Nugget #1
     * TODO: finish the implementation of the erase function (~8 lines).
     */
-   (void) ptr_node;
+   (void) ptr_node; // just here so starter code compiles
 
     return pos_next;
 }
@@ -233,7 +244,7 @@ template <typename UniPred>
 size_t List<T>::remove_if(UniPred pred) {
     /*
      * Nugget #2
-     * TODO: fix the bug (~1 line)
+     * TODO: fix the bug (~1-3 lines)
      */
     size_t count = 0;
     for (auto iter = begin(); iter != end(); ++iter) {
@@ -254,8 +265,12 @@ size_t List<T>::remove_if(UniPred pred) {
  */
 template <typename T>
 bool operator==(const List<T>& lhs, const List<T>& rhs) {
-    (void) lhs, (void) rhs;
-    return true;
+    (void) lhs, (void) rhs; // just here so starter code compiles
+    /*
+     * Nugget #3
+     * TODO: implement this function (~1 line)
+     */
+    return true; // just here so starter code compiles
 }
 
 /*
@@ -273,6 +288,56 @@ bool operator==(const List<T>& lhs, const List<T>& rhs) {
 *      {1, 2} < {1, 2, 3}
 *      {} < {1}
 */
+
+template <typename T>
+bool operator<(const List<T>& lhs, const List<T>& rhs) {
+    (void) lhs, (void) rhs; // just here so starter code compiles
+    /*
+     * Nugget #4
+     * TODO: implement this function (~1 line)
+     */
+    return true; // just here so starter code compiles
+}
+
+template <typename T>
+bool operator>(const List<T>& lhs, const List<T>& rhs) {
+    (void) lhs, (void) rhs; // just here so starter code compiles
+    /*
+     * Nugget #4
+     * TODO: implement this function (~1 line)
+     */
+    return true; // just here so starter code compiles
+}
+
+template <typename T>
+bool operator<=(const List<T>& lhs, const List<T>& rhs) {
+    (void) lhs, (void) rhs; // just here so starter code compiles
+    /*
+     * Nugget #4
+     * TODO: implement this function (~1 line)
+     */
+    return true; // just here so starter code compiles
+}
+
+template <typename T>
+bool operator>=(const List<T>& lhs, const List<T>& rhs) {
+    (void) lhs, (void) rhs; // just here so starter code compiles
+    /*
+     * Nugget #4
+     * TODO: implement this function (~1 line)
+     */
+    return true; // just here so starter code compiles
+}
+
+template <typename T>
+bool operator!=(const List<T>& lhs, const List<T>& rhs) {
+    (void) lhs, (void) rhs; // just here so starter code compiles
+    /*
+     * Nugget #4
+     * TODO: implement this function (~1 line)
+     */
+    return true; // just here so starter code compiles
+}
 
 /*
  * Nugget #5
@@ -307,8 +372,8 @@ std::ostream& operator<<(std::ostream& os, List<T>& list) {
 /*
  * Nugget #6
  * Is it good class design to implement these two operators for List<T>?
- * ANSWER: yes/no (choose one)
- * REASON: one sentence justification 
+ * ANSWER: [write yes or no]
+ * REASON: [one sentence justification] 
  */
 template <typename T>
 typename List<T>::value_type& List<T>::operator[](size_t index) {
@@ -345,10 +410,10 @@ List<T>::List(List<T>&& other) : _front{std::move(other._front)},
 template <typename T>
 List<T>& List<T>::operator=(const List<T>& rhs) {
     /* 
-     * Nugget #8
+     * Nugget #9
      * TODO: implement the copy and move assignment operators (~5 lines)
      */
-    (void) rhs;
+    (void) rhs; // just here so starter code compiles
     return *this;
 }
 
@@ -358,7 +423,7 @@ List<T>& List<T>::operator=(List<T>&& rhs) {
      * Nugget #9
      * TODO: implement the copy and move assignment operators (~5 lines)
      */
-    (void) rhs;
+    (void) rhs; // just here so starter code compiles
     return *this;
 }
 

@@ -7,8 +7,8 @@ OBJECTS = $(SOURCES:.cpp=.o)
 
 all: main
 
-main: tests.cpp list.h list_iterator.h
-	$(CXX) $(CXXFLAGS) -o main tests.cpp
+main: test_harness.cpp tests.cpp list.h list_iterator.h
+	$(CXX) $(CXXFLAGS) -o main test_harness.cpp
 
 clean:
 	rm -f main *.o
